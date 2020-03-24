@@ -1,0 +1,89 @@
+<h1>Welcome to 411 final project</h1>
+<br>
+
+<h3>Contributor: Yan, Sahil, Marek</h3><br><br>
+
+<!-- This is the user search form -->
+<!-- <div style=" width: 30%;">
+<form action="/" method="post" width="50%">
+    <div class="form-group">
+      <label for="name">Type</label>
+      <input
+        type="name"
+        id="name"
+        name="name"
+        class="form-control"
+        placeholder="Enter Name"
+        value=""
+      />
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        placeholder="Enter Email"
+        value=" "
+      />
+    </div>
+    <div class="form-group">
+      <label for="email2">Confirm Email</label>
+      <input
+        type="email"
+        id="email2"
+        name="email2"
+        class="form-control"
+        placeholder="Confirm Email"
+        value=" "
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        placeholder="Create Password"
+        value=" "
+      />
+    </div>
+    <div class="form-group">
+      <label for="password2">Confirm Password</label>
+      <input
+        type="password"
+        id="password2"
+        name="password2"
+        class="form-control"
+        placeholder="Confirm Password"
+        value=" "
+      />
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Register</button>
+</form>
+</div> -->
+
+<h6>** Below are FAKE sample data from our database</h6>
+
+
+<h4>
+    <span style="display: inline-block; width:200px;">Event Name</span>
+    <span style="display: inline-block; width:200px;">Event Date</span>
+    <span style="display: inline-block; width:200px;">Price</span>
+    <span style="display: inline-block; width:200px;">Duration</span>
+    <span style="display: inline-block; width:200px;">Type</span>
+</h4>
+
+<% for(i=0;i<events.length;i++){ %>
+    <li>
+        <div class="lead mb-2">
+            <span style="display: inline-block; width:200px;"><%= events[i].event_name %></span>
+            <span style="display: inline-block; width:200px;"><%= events[i].event_date %></span>
+            <span style="display: inline-block; width:200px;"><%= events[i].price %></span>
+            <span style="display: inline-block; width:200px;"><%= events[i].duration %></span>
+            <span style="display: inline-block; width:200px;"><%= events[i].type %></span>
+        </div>
+    </li>
+<% } %>
