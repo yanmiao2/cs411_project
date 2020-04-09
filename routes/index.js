@@ -27,7 +27,9 @@ router.get('/events', (req, res) => {
 });
 
 router.post('/events', (req, res) => {
+    console.log(req.body);
     Event.find(
+        // TBD: Fill the below search condition based on req.body
         {},
         (err, data) => {
             if(err) console.log(err);
@@ -40,7 +42,7 @@ router.post('/events', (req, res) => {
 
 router.post('/events/details', (req, res) => {
     Event.find(
-        {},
+        {_id: req.body.eventID},
         (err, data) => {
             if(err) console.log(err);
             else{

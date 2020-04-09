@@ -5,104 +5,39 @@
 <!-- <a href="/admin">Admin</a> -->
 <form action="/events" method="post">
     <label for="">Date</label>
-    <input type="date" name="" value="">
-    <label for="">Date</label>
-    <select id="time">
-        <option value="morning">morning</option>
-        <option value="afternoon">afternoon</option>
-        <option value="evening">evening</option>
-        <option value="night">night</option>
+        <input type="date" name="date" value="">
+    <label for="">Time</label>
+    <select id="time" name="time">
+        <option value="0">8am-12pm</option>
+        <option value="1">12pm-5pm</option>
+        <option value="2">5pm-9pm</option>
+        <option value="3">9pm-Midnight</option>
     </select>
-    <label for="">Date</label>
-    <select id="type">
-        <option value="romantic">romantic</option>
-        <option value="sports">sports</option>
-        <option value="music">music</option>
-        <option value="relaxation">relaxation</option>
+    <label for="">Group Type</label>
+    <select id="group_type" name="group_type">
+        <option value="0">Couple</option>
+        <option value="1">Family</option>
+        <option value="2">Friends</option>
+        <option value="3">Classmates/Co-workers</option>
+    </select>
+    <label for="">Budget</label>
+    <select id="budget" name="budget">
+        <option value="0">Free</option>
+        <option value="1">$1-$50</option>
+        <option value="2">$50-$200</option>
+        <option value="3">$200-$1000</option>
+        <option value="4">Over $1000</option>
+    </select>
+    <label for="">Group Size</label>
+    <select id="size" name="size">
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3-10</option>
+        <option value="3">10-50</option>
+        <option value="3">50+</option>
     </select><br><br>
     <button type="submit" name="button">Generate Events</button>
+    <button type="button" name="button">Generate List of Events</button>
 </form>
-<!-- This is the user search form -->
-<!-- <div style=" width: 30%;">
-<form action="/" method="post" width="50%">
-    <div class="form-group">
-      <label for="name">Type</label>
-      <input
-        type="name"
-        id="name"
-        name="name"
-        class="form-control"
-        placeholder="Enter Name"
-        value=""
-      />
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        class="form-control"
-        placeholder="Enter Email"
-        value=" "
-      />
-    </div>
-    <div class="form-group">
-      <label for="email2">Confirm Email</label>
-      <input
-        type="email"
-        id="email2"
-        name="email2"
-        class="form-control"
-        placeholder="Confirm Email"
-        value=" "
-      />
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        class="form-control"
-        placeholder="Create Password"
-        value=" "
-      />
-    </div>
-    <div class="form-group">
-      <label for="password2">Confirm Password</label>
-      <input
-        type="password"
-        id="password2"
-        name="password2"
-        class="form-control"
-        placeholder="Confirm Password"
-        value=" "
-      />
-    </div>
-    <button type="submit" class="btn btn-primary btn-block">Register</button>
-</form>
-</div> -->
 
 <h6>** There're two options: generate events or schedule of events, right now the schedule function is still under development</h6>
-
-
-<!-- <h4>
-    <span style="display: inline-block; width:200px;">Event Name</span>
-    <span style="display: inline-block; width:200px;">Event Date</span>
-    <span style="display: inline-block; width:200px;">Price</span>
-    <span style="display: inline-block; width:200px;">Duration</span>
-    <span style="display: inline-block; width:200px;">Type</span>
-</h4>
-
-<% for(i=0;i<events.length;i++){ %>
-    <li>
-        <div class="lead mb-2">
-            <span style="display: inline-block; width:200px;"><%= events[i].event_name %></span>
-            <span style="display: inline-block; width:200px;"><%= events[i].event_date %></span>
-            <span style="display: inline-block; width:200px;"><%= events[i].price %></span>
-            <span style="display: inline-block; width:200px;"><%= events[i].duration %></span>
-            <span style="display: inline-block; width:200px;"><%= events[i].type %></span>
-        </div>
-    </li>
-<% } %> -->
