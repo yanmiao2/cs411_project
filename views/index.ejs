@@ -1,8 +1,27 @@
-<h1>Welcome to 411 final project</h1>
+<h1>Welcome to CitySights</h1>
 <br>
 
 <h3>Contributor: Yan, Sahil, Marek</h3><br><br>
-
+<!-- <a href="/admin">Admin</a> -->
+<form action="/events" method="post">
+    <label for="">Date</label>
+    <input type="date" name="" value="">
+    <label for="">Date</label>
+    <select id="time">
+        <option value="morning">morning</option>
+        <option value="afternoon">afternoon</option>
+        <option value="evening">evening</option>
+        <option value="night">night</option>
+    </select>
+    <label for="">Date</label>
+    <select id="type">
+        <option value="romantic">romantic</option>
+        <option value="sports">sports</option>
+        <option value="music">music</option>
+        <option value="relaxation">relaxation</option>
+    </select><br><br>
+    <button type="submit" name="button">Generate Events</button>
+</form>
 <!-- This is the user search form -->
 <!-- <div style=" width: 30%;">
 <form action="/" method="post" width="50%">
@@ -65,10 +84,10 @@
 </form>
 </div> -->
 
-<h6>** Below are FAKE sample data from our database</h6>
+<h6>** There're two options: generate events or schedule of events, right now the schedule function is still under development</h6>
 
 
-<h4>
+<!-- <h4>
     <span style="display: inline-block; width:200px;">Event Name</span>
     <span style="display: inline-block; width:200px;">Event Date</span>
     <span style="display: inline-block; width:200px;">Price</span>
@@ -86,4 +105,4 @@
             <span style="display: inline-block; width:200px;"><%= events[i].type %></span>
         </div>
     </li>
-<% } %>
+<% } %> -->

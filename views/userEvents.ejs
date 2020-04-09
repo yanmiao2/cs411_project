@@ -1,0 +1,21 @@
+<h1>Welcome User</h1>
+<a href="/">Back</a><br>
+<p>*Here is the events we have found for you!</p>
+
+<h4>
+    <span style="display: inline-block; width:300px;">Event Name</span>
+    <span style="display: inline-block; width:300px;">Event Date</span>
+</h4>
+
+<% for(i=0;i<events.length;i++){ %>
+    <li>
+        <form action="/events/details" method="post" style="float: right;display: inline-block;">
+                    <input type="hidden" name="eventID" value="<%= events[i].id%>">
+                    <button type="Submit" class="btn btn-info">Details</button>
+        </form>
+        <div class="lead mb-3">
+            <span style="display: inline-block; width:300px;"><%= events[i].event_name %></span>
+            <span style="display: inline-block; width:300px;"><%= events[i].event_date %></span>
+        </div>
+    </li>
+<% } %>
