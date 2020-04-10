@@ -3,8 +3,17 @@
 <h3>Contributor: Yan, Sahil, Marek</h3>
 <a href="/admin">Admin(For temporary dev use)</a><br><br>
 <form action="/events" method="post">
+    <h4>Date and budget are required for both search functions</h4>
     <label for="">Date</label>
         <input type="date" name="date" value="">
+    <label for="">Budget</label>
+    <select id="budget" name="budget">
+        <option value="0">Free</option>
+        <option value="1">$1-$50</option>
+        <option value="2">Over $50</option>
+    </select><br><br>
+    <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br>
+    <h4>The following are optional but recommended</h4>
     <label for="">Time</label>
     <select id="time" name="time">
         <option value="0">8am-12pm</option>
@@ -19,14 +28,6 @@
         <option value="2">Friends</option>
         <option value="3">Classmates/Co-workers</option>
     </select>
-    <label for="">Budget</label>
-    <select id="budget" name="budget">
-        <option value="0">Free</option>
-        <option value="1">$1-$50</option>
-        <option value="2">$50-$200</option>
-        <option value="3">$200-$1000</option>
-        <option value="4">Over $1000</option>
-    </select>
     <label for="">Group Size</label>
     <select id="size" name="size">
         <option value="0">1</option>
@@ -35,8 +36,6 @@
         <option value="3">10-50</option>
         <option value="3">50+</option>
     </select><br><br>
-    <button type="submit" name="button">Find Single Event</button>
-    <button type="button" name="button">Generate Schedule of Events</button>
+    <button type="button" name="button"class="btn btn-primary">Generate Schedule of Events</button>
+    <-- Generate schedule function is still under development
 </form>
-
-<h6>** There're two options: generate events or schedule of events, right now the schedule function is still under development</h6>

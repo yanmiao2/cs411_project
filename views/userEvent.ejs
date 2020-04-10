@@ -1,7 +1,12 @@
 <br>
 <h1>Event Details</h1>
 <br>
-<a href="/events">Back</a>
+<!-- <a href="/events">Back</a> -->
+<form action="/events" method="post" style="float: left;display: inline-block;">
+            <input type="hidden" name="date" value="<%= query.date%>">
+            <input type="hidden" name="budget" value="<%= query.budget%>">
+            <button type="Submit" class="btn btn-secondary">Back</button>
+</form><br><br>
 <h3>Event Name: </h3>
     <p><%= event[0].event_name %></p>
 <h3>Date:</h3>

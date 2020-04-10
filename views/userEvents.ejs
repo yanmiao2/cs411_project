@@ -12,6 +12,8 @@
     <li>
         <form action="/events/details" method="post" style="float: right;display: inline-block;">
                     <input type="hidden" name="eventID" value="<%= events[i].id%>">
+                    <input type="hidden" name="date" value="<%= query.date%>">
+                    <input type="hidden" name="budget" value="<%= query.budget%>">
                     <button type="Submit" class="btn btn-info">Details</button>
         </form>
         <div class="lead mb-3">
