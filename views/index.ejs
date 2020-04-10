@@ -1,0 +1,42 @@
+<h1>Welcome to CitySights</h1>
+<br>
+<h3>Contributor: Yan, Sahil, Marek</h3>
+<a href="/admin">Admin(For temporary dev use)</a><br><br>
+<form action="/events" method="post">
+    <label for="">Date</label>
+        <input type="date" name="date" value="">
+    <label for="">Time</label>
+    <select id="time" name="time">
+        <option value="0">8am-12pm</option>
+        <option value="1">12pm-5pm</option>
+        <option value="2">5pm-9pm</option>
+        <option value="3">9pm-Midnight</option>
+    </select>
+    <label for="">Group Type</label>
+    <select id="group_type" name="group_type">
+        <option value="0">Couple</option>
+        <option value="1">Family</option>
+        <option value="2">Friends</option>
+        <option value="3">Classmates/Co-workers</option>
+    </select>
+    <label for="">Budget</label>
+    <select id="budget" name="budget">
+        <option value="0">Free</option>
+        <option value="1">$1-$50</option>
+        <option value="2">$50-$200</option>
+        <option value="3">$200-$1000</option>
+        <option value="4">Over $1000</option>
+    </select>
+    <label for="">Group Size</label>
+    <select id="size" name="size">
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3-10</option>
+        <option value="3">10-50</option>
+        <option value="3">50+</option>
+    </select><br><br>
+    <button type="submit" name="button">Find Single Event</button>
+    <button type="button" name="button">Generate Schedule of Events</button>
+</form>
+
+<h6>** There're two options: generate events or schedule of events, right now the schedule function is still under development</h6>

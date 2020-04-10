@@ -77,6 +77,8 @@ router.post('/admin/events', (req, res) => {
         (err, data) => {
             if(err) console.log(err);
             else{
+                console.log(data);
+                console.log(data[0].event_type[0]);
                 res.render('adminEvent',{ event : data })
             }
         }

@@ -1,0 +1,26 @@
+<br>
+<h1>Event Details</h1>
+<br>
+<a href="/events">Back</a>
+<h3>Event Name: </h3>
+    <p><%= event[0].event_name %></p>
+<h3>Date:</h3>
+    <p><%= event[0].event_date %></p>
+<h3>Price(USD): </h3>
+    <p><%= event[0].ticket_price %></p>
+<h3>Event Size: </h3>
+    <p><%= event[0].event_size %></p>
+<h3>Start Time: </h3>
+    <p><%= event[0].start_time %></p>
+<h3>Location: </h3>
+    <p><%= event[0].location %></p>
+<h3>Web Link: </h3>
+    <% if(event[0].web_link.includes("https://")) {%>
+        <a href="<%= event[0].web_link %>"><%= event[0].web_link %></a>
+    <% }else{ %>
+        <a href="https://<%= event[0].web_link %>"><%= event[0].web_link %></a>
+    <% }%>
+<h3>Description: </h3>
+    <p><%= event[0].description %></p>
+<h3>Event Type: </h3>
+    <p><%= event[0].event_type %></p>
