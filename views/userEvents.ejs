@@ -4,7 +4,8 @@
 
 <h4>
     <span style="display: inline-block; width:550px;padding-left:30px;">Event Name</span>
-    <span style="display: inline-block; width:300px;">Event Date</span>
+    <span style="display: inline-block; width:200px;">Event Date</span>
+    <span style="display: inline-block; width:200px;">Price</span>
 </h4>
 
 <ol>
@@ -18,7 +19,12 @@
         </form>
         <div class="lead mb-3">
             <span style="display: inline-block; width:515px;"><%= events[i].event_name %></span>
-            <span style="display: inline-block; width:300px;"><%= events[i].event_date %></span>
+            <span style="display: inline-block; width:200px;"><%= events[i].event_date %></span>
+            <% if(events[i].ticket_price<=0){ %>
+                <span style="display: inline-block; width:200px;">Free</span>
+            <% } else { %>
+                <span style="display: inline-block; width:200px;">$<%= events[i].ticket_price %></span>
+            <% } %>
         </div>
     </li>
 <% } %>
