@@ -2,19 +2,44 @@ const express = require('express');
 const router = express.Router();
 
 const Event = require('../models/Event');
+const mysql = require('mysql');
+const con = require('../mysql');
 
 // Welcome Page
 router.get('/', (req, res) => {
+    res.render('index');
+    // Event.find(
+    //     {},
+    //     (err, data) => {
+    //         if(err) console.log(err);
+    //         else res.render('index',{ events : data });
+    //     }
+    // );
+});
+
+router.get('/schedule', (req, res) => {
     Event.find(
         {},
         (err, data) => {
             if(err) console.log(err);
-            else res.render('index',{ events : data });
+            else res.render('schedule');
         }
     );
 });
 
 router.get('/events', (req, res) => {
+    // var con = mysql.createConnection({
+    //   host: "remotemysql.com",
+    //   user: "k90mWR7iXF",
+    //   password: "ebowa9Fe3y",
+    //   database: 'k90mWR7iXF'
+    // });
+    //
+    // con.connect(function(err) {
+    //   if (err) throw err;
+    //   console.log("Connected!");
+    // });
+
     Event.find(
         {},
         (err, data) => {
@@ -28,6 +53,14 @@ router.get('/events', (req, res) => {
 
 router.post('/events', (req, res) => {
     console.log(req.body);
+    let primary = Math.random() * 100000;
+		// var sql = 'INSERT INTO userpref (key,value) VALUES (?,?,?,?,?,?,?)',[req.body.group_type, req.body.date, 20000, req.body.time, 99, Chicago, 15)]";
+    var sql = "INSERT INTO userpref (group_type, available_date, queryID, available_time, budget, location, groupsize) VALUES ('"+req.body.group_type+"', '"+req.body.date+"','"+primary+"', '"+req.body.time+"', '"+req.body.budget+"', 'Chicago', '1000')";
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+      });
+
     let lower_limit, upper_limit;
     if(req.body.budget==0){lower_limit = -1; upper_limit = 0;}
     else if(req.body.budget==1){lower_limit = 1; upper_limit = 50;}
@@ -78,32 +111,51 @@ router.get('/admin', (req, res) => {
 });
 
 router.post('/admin', (req, res) => {
-    Event.find(
-        {},
-        (err, data) => {
-            if(err) console.log(err);
-            else{
-                if(req.body.pwd == "sights")
-                    res.render('adminEvents',{ events : data })
-                else
-                    res.redirect('/admin')
-            }
-        }
-    );
+    con.query("select * from `Updated Events`",function (err, result) {
+      if (err) throw err;
+      else{
+          if(req.body.pwd == "sights"){
+              console.log("find all events");
+              res.render('adminEvents',{ events : result })
+          }
+          else
+              res.redirect('/admin')
+      }
+    });
+    // This is old mongoDB version
+    // Event.find(
+    //     {},
+    //     (err, data) => {
+    //         if(err) console.log(err);
+    //         else{
+    //             if(req.body.pwd == "sights")
+    //                 res.render('adminEvents',{ events : data })
+    //             else
+    //                 res.redirect('/admin')
+    //         }
+    //     }
+    // );
 });
 
 router.post('/admin/events', (req, res) => {
-    Event.find(
-        {_id: req.body.eventID},
-        (err, data) => {
-            if(err) console.log(err);
-            else{
-                console.log(data);
-                console.log(data[0].event_type[0]);
-                res.render('adminEvent',{ event : data })
-            }
-        }
-    );
+    con.query("select * from `Updated Events`",function (err, result) {
+      if (err) throw err;
+      else{
+          console.log("find all events");
+          res.render('adminEvent',{ event : result })
+      }
+    });
+    // Event.find(
+    //     {_id: req.body.eventID},
+    //     (err, data) => {
+    //         if(err) console.log(err);
+    //         else{
+    //             console.log(data);
+    //             console.log(data[0].event_type[0]);
+    //             res.render('adminEvent',{ event : data })
+    //         }
+    //     }
+    // );
 });
 
 router.get('/admin/add', (req, res) => {
@@ -111,29 +163,43 @@ router.get('/admin/add', (req, res) => {
 });
 
 router.post('/admin/add', (req, res) => {
-    const {event_name,event_date,ticket_price,event_size,start_time,location,web_link,event_type}= req.body;
-    const newEvent = {event_name,event_date,ticket_price,event_size,start_time,location,web_link,event_type}
-    var data = Event(newEvent);
-    if(event_name,event_date,location){
-        data.save(function(err) {
-            if (err) {
-            console.log("Error in Insert Record");
-            } else {
-                Event.find(
-                    {},
-                    (err, data) => {
-                        if(err) console.log(err);
-                        else{
-                            res.render('adminEvents',{ events : data })
-                        }
-                    }
-                );
-            }
+    const {event_name,event_date,ticket_price,start_time,location,web_link,description, event_type}= req.body;
+    const newEvent = {event_name,event_date,ticket_price,start_time,location,web_link,event_type}
+
+    var sql = "INSERT INTO `Updated Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+        con.query("select * from `Updated Events`",function (err, result) {
+          if (err) throw err;
+          else{
+              console.log("find all events");
+              res.render('adminEvents',{ events : result })
+          }
         });
-    }else{
-        console.log("please enter all fields");
-        res.render('adminAddEvent');
-    }
+      });
+    //old mongo solution
+    // var data = Event(newEvent);
+    // if(event_name,event_date,location){
+    //     data.save(function(err) {
+    //         if (err) {
+    //         console.log("Error in Insert Record");
+    //         } else {
+    //             Event.find(
+    //                 {},
+    //                 (err, data) => {
+    //                     if(err) console.log(err);
+    //                     else{
+    //                         res.render('adminEvents',{ events : data })
+    //                     }
+    //                 }
+    //             );
+    //         }
+    //     });
+    // }else{
+    //     console.log("please enter all fields");
+    //     res.render('adminAddEvent');
+    // }
 });
 
 router.post('/admin/update', (req, res) => {

@@ -1,21 +1,25 @@
 <h1>Welcome to CitySights</h1>
 <br>
 <h3>Contributor: Yan, Sahil, Marek</h3>
-<a href="/admin">Admin(For temporary dev use)</a><br><br>
-<h4>See below link for schedule</h4>
-<a href="/schedule">Schedule Search</a><br><br>
-<h1>This is for single event</h1>
-<form action="/events" method="post">
-    <h4>Date and budget are required for both search functions</h4>
-    <label for="">Date</label>
-        <input type="date" name="date" value="">
+<a href="/">Homepage</a><br><br>
+
+<h1>This is for Schedule</h1>
+<form action="/schedule" method="post">
+    <h4>Start/End Date, Duration and Budget are required for both search functions</h4>
+
+    <label for="">Start Date</label>
+        <input type="date" name="startDate" value="">
+
+    <label for="">End Date</label>
+        <input type="date" name="endDate" value="">
+
     <label for="">Budget</label>
     <select id="budget" name="budget">
         <option value="0">Free</option>
         <option value="1">$1-$50</option>
         <option value="2">Over $50</option>
     </select><br><br>
-    <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br>
+    <!-- <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br> -->
     <h4>The following are optional but recommended</h4>
     <label for="">Time</label>
     <select id="time" name="time">
@@ -39,5 +43,6 @@
         <option value="50">10-50</option>
         <option value="1000">50+</option>
     </select><br><br>
-    <!-- <button type="button" name="button"class="btn btn-primary">Generate Schedule of Events</button> -->
+    <button type="button" name="button"class="btn btn-primary">Generate Schedule of Events</button>
+    <-- Generate schedule function is still under development
 </form>
