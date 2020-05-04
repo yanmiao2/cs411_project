@@ -27,6 +27,19 @@ router.get('/schedule', (req, res) => {
     );
 });
 
+router.get('/schedule/events', (req, res) => {
+    var start_date = "2020-08-15"
+    var end_date = "2020-09-15"
+    var budget = 100
+    con.query("select * from `Updated Events` where date>" + "'" + start_date + "'" + " and date<" + "'" + end_date + "'",function (err, result) {
+      if (err) throw err;
+      else{
+          console.log("find all events");
+          res.render('adminEvents',{ events : result })
+      }
+    });
+});
+
 router.get('/events', (req, res) => {
     // var con = mysql.createConnection({
     //   host: "remotemysql.com",
