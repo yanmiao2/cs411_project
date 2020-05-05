@@ -4,6 +4,7 @@ const router = express.Router();
 const Event = require('../models/Event');
 const mysql = require('mysql');
 const con = require('../mysql');
+const uuid = require("uuid");
 
 // Welcome Page
 router.get('/', (req, res) => {
@@ -41,18 +42,6 @@ router.get('/schedule/events', (req, res) => {
 });
 
 router.get('/events', (req, res) => {
-    // var con = mysql.createConnection({
-    //   host: "remotemysql.com",
-    //   user: "k90mWR7iXF",
-    //   password: "ebowa9Fe3y",
-    //   database: 'k90mWR7iXF'
-    // });
-    //
-    // con.connect(function(err) {
-    //   if (err) throw err;
-    //   console.log("Connected!");
-    // });
-
     Event.find(
         {},
         (err, data) => {
@@ -66,8 +55,7 @@ router.get('/events', (req, res) => {
 
 router.post('/events', (req, res) => {
     console.log(req.body);
-    let primary = Math.random() * 100000;
-		// var sql = 'INSERT INTO userpref (key,value) VALUES (?,?,?,?,?,?,?)',[req.body.group_type, req.body.date, 20000, req.body.time, 99, Chicago, 15)]";
+    // let temp = uuid.v4();
     var sql = "INSERT INTO userpref (group_type, available_date, queryID, available_time, budget, location, groupsize) VALUES ('"+req.body.group_type+"', '"+req.body.date+"','"+primary+"', '"+req.body.time+"', '"+req.body.budget+"', 'Chicago', '1000')";
       con.query(sql, function (err, result) {
         if (err) throw err;
@@ -124,11 +112,10 @@ router.get('/admin', (req, res) => {
 });
 
 router.post('/admin', (req, res) => {
-    con.query("select * from `Updated Events`",function (err, result) {
+    con.query("select * from `Events`",function (err, result) {
       if (err) throw err;
       else{
           if(req.body.pwd == "sights"){
-              console.log("find all events");
               res.render('adminEvents',{ events : result })
           }
           else
@@ -150,11 +137,13 @@ router.post('/admin', (req, res) => {
     // );
 });
 
+//find details of one event
 router.post('/admin/events', (req, res) => {
-    con.query("select * from `Updated Events`",function (err, result) {
+    con.query("select * from Events e where e.EventID = '"+req.body.eventID+"'",function (err, result) {
       if (err) throw err;
       else{
-          console.log("find all events");
+          console.log("specific events");
+          console.log(result);
           res.render('adminEvent',{ event : result })
       }
     });
@@ -176,14 +165,14 @@ router.get('/admin/add', (req, res) => {
 });
 
 router.post('/admin/add', (req, res) => {
-    const {event_name,event_date,ticket_price,start_time,location,web_link,description, event_type}= req.body;
-    const newEvent = {event_name,event_date,ticket_price,start_time,location,web_link,event_type}
-
-    var sql = "INSERT INTO `Updated Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
+    const {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}= req.body;
+    // const newEvent = {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}
+    let temp = uuid.v4();
+    var sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES ('"+temp+"','"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', '"+location+"', '"+event_date+"', '"+description+"', '"+event_type+"')";
       con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log("1 record inserted");
-        con.query("select * from `Updated Events`",function (err, result) {
+        console.log(result);
+        con.query("select * from `Events`",function (err, result) {
           if (err) throw err;
           else{
               console.log("find all events");
@@ -216,53 +205,112 @@ router.post('/admin/add', (req, res) => {
 });
 
 router.post('/admin/update', (req, res) => {
-    const {event_name,event_date,ticket_price,event_size,start_time,location,web_link,description,event_type}= req.body;
-    Event.findOneAndUpdate(
-        {_id:req.body.eventID},
-        {event_name: event_name,
-            event_date: event_date,
-            ticket_price: ticket_price,
-            event_size: event_size,
-            start_time: start_time,
-            location: location,
-            web_link: web_link,
-            description: description,
-            event_type: event_type},
-        function(err, my_res) {
-            if (err) {
-                console.log("Error in Fetch Data " + err);
-            } else {
-                Event.find(
-                    {},
-                    (err, data) => {
-                        if(err) console.log(err);
-                        else{
-                            res.render('adminEvents',{ events : data })
-                        }
-                    }
-                );
-            }
+    const {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}= req.body;
+    console.log(req.body);
+    // const newEvent = {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}
+    var sql = "Update Events e SET Name = '"+event_name+"', URL = '"+web_link+"', Price = '"+ticket_price+"', StartTime = '"+start_time+"', Location = '"+location+"', Date = '"+event_date+"', Description = '"+description+"', Type = '"+event_type+"' WHERE e.EventID = '"+req.body.eventID+"' "
+     // (EventID, Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES ('"+temp+"','"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', '"+location+"', '"+event_date+"', '"+description+"', '"+event_type+"')";
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        con.query("select * from `Events`",function (err, result) {
+          if (err) throw err;
+          else{
+              console.log("find all events");
+              res.render('adminEvents',{ events : result })
+          }
         });
+      });
+
+
+
+
+    // const {event_name,event_date,ticket_price,event_size,start_time,location,web_link,description,event_type}= req.body;
+    // Event.findOneAndUpdate(
+    //     {_id:req.body.eventID},
+    //     {event_name: event_name,
+    //         event_date: event_date,
+    //         ticket_price: ticket_price,
+    //         event_size: event_size,
+    //         start_time: start_time,
+    //         location: location,
+    //         web_link: web_link,
+    //         description: description,
+    //         event_type: event_type},
+    //     function(err, my_res) {
+    //         if (err) {
+    //             console.log("Error in Fetch Data " + err);
+    //         } else {
+    //             Event.find(
+    //                 {},
+    //                 (err, data) => {
+    //                     if(err) console.log(err);
+    //                     else{
+    //                         res.render('adminEvents',{ events : data })
+    //                     }
+    //                 }
+    //             );
+    //         }
+    //     });
 });
 router.post("/admin/delete",(req, res) => {
-    Event.findOneAndDelete(
-        {_id:req.body.eventID},
-        function(err, my_res) {
-            if (err) {
-                console.log("Error in Fetch Data " + err);
-            } else {
-                Event.find(
-                    {},
-                    (err, data) => {
-                        if(err) console.log(err);
-                        else{
-                            res.render('adminEvents',{ events : data })
-                        }
-                    }
-                );
-            }
+    console.log(req.body);
+    var sql = "DELETE FROM Events WHERE EventID='"+req.body.eventID+"'; "
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        con.query("select * from `Events`",function (err, result) {
+          if (err) throw err;
+          else{
+              console.log("find all events");
+              res.render('adminEvents',{ events : result })
+          }
         });
+      });
+
+    // Event.findOneAndDelete(
+    //     {_id:req.body.eventID},
+    //     function(err, my_res) {
+    //         if (err) {
+    //             console.log("Error in Fetch Data " + err);
+    //         } else {
+    //             Event.find(
+    //                 {},
+    //                 (err, data) => {
+    //                     if(err) console.log(err);
+    //                     else{
+    //                         res.render('adminEvents',{ events : data })
+    //                     }
+    //                 }
+    //             );
+    //         }
+    //     });
 });
+
+
+//This is to add new UUID
+
+// router.get("/test",(req,res)=>{
+//     // let temp = uuid.v4();
+//     // let sql = "UPDATE `uuid_test` SET `UUID` = '"+temp+"' WHERE `uuid_test`.`UUID` = 'null1';"
+//     var sql = "select * from `Updated Events`";
+//     con.query(sql,function (err, result) {
+//       if (err) throw err;
+//       else{
+//           console.log(result.length);
+//           for(let i =0; i<result.length;i++){
+//               // var sql = "INSERT INTO `Updated Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
+//               let temp = uuid.v4();
+//               new_sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES('"+temp+"','"+result[i].Name+"','"+result[i].URL+"', '"+result[i].Price+"', '"+result[i].StartTime+"', '"+result[i].Location+"', '"+result[i].Date+"', '"+result[i].Description+"', '"+result[i].Type+"')";
+//               con.query(new_sql,(err,new_result)=>{
+//                   console.log("insert 1");
+//                   console.log(new_result);
+//               })
+//           }
+//           res.render('admin');
+//       }
+//     });
+// });
 
 // add update delete
 module.exports = router;
