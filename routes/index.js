@@ -22,27 +22,25 @@ router.get('/', (req, res) => {
 
 //Test
 router.get('/schedule', (req, res) => {
-    res.render('schedule');
+
+    Event.find(
+        {},
+        (err, data) => {
+            if(err) console.log(err);
+            else res.render('schedule');
+        }
+    );
 });
 
 router.post('/schedule', (req, res) => {
-    console.log(req.body);
-    //Yan
-    temp = uuid.v4();
-    var sql = "INSERT INTO `userpref` (group_type, queryID, budget, groupsize, Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.size+"', '"+req.body.interests+"')";
-    con.query(sql,function (err, result) {
-      if (err) throw err;
-      else{
-          let new_sql = "INSERT INTO `schedPref`(quiryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
-          con.query(new_sql, (err, new_result)=>{
-              console.log(new_result);
-          });
-          console.log("find all events");
-
-          //TBD(Sahil && Marek): new quiry && a new ejs file
-          res.render('admin');
-      }
-    });
+    console.log(req);
+    Event.find(
+        {},
+        (err, data) => {
+            if(err) console.log(err);
+            else res.render('schedule');
+        }
+    );
 });
 
 router.get('/schedule/events', (req, res) => {
@@ -72,34 +70,58 @@ router.get('/events', (req, res) => {
 
 router.post('/events', (req, res) => {
     console.log(req.body);
-    // Yan: add quiry to DB
-    //TBD
+    // TBD - Yan: add query to DB
     // let temp = uuid.v4();
-    temp = uuid.v4();
-    var sql = "INSERT INTO `userpref` (group_type, queryID, budget, groupsize, Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.size+"', '"+req.body.interests+"')";
-    con.query(sql,function (err, result) {
-      if (err) throw err;
-      else{
-          let new_sql = "INSERT INTO `schedPref`(quiryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
-          con.query(new_sql, (err, new_result)=>{
-              console.log(new_result);
-          });
-          console.log("find all events");
 
-          //TBD(Sahil && Marek): new quiry && a new ejs file
-          res.render('admin');
+    //TBD - Sahil and Marek:
+    //-------------------------------------------
+    var date = req.body.date
+    var group = req.body.group_type
+    var size = req.body.size
+    var budget = req.body.budget
+
+    if(budget=='') budget = Number.MAX_SAFE_INTEGER
+
+    var interest = ['','','','','']
+    if("interests" in req.body){
+      interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
+      var i;
+      if(typeof req.body.interests === "string"){
+          interest[0] = req.body.interests
       }
-    });
+      else{
+          for(i=0; i<req.body.interests.length; i++)
+          {
+            interest[i] = req.body.interests[i]
+          }
+      }
+    }
+    // Group types : Couple, Family, Friends, Professional
+    if(group!="none"){
+        switch(group){
+            case "Couple":
 
+                break;
+            case "Family":
+                break;
+            case "Friends":
+                break;
+            default:
+                break;
+        }
+    }
 
+    if(date == ""){
+        var sql = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%')"
+    }
+    else{
+        var sql = "select * from Events e where e.date = '"+date+"' and e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%')"
+    }
 
-    //Sahil and MareK:
-    var sql = "Select * from Events";
-    // sql = "select * from Events e where e.EventID = '"+req.body.eventID+"' ";
-      con.query(sql, function (err, result) {
+    con.query(sql, function (err, result) {
         if (err) throw err;
         res.render('userEvents',{ events : result })
-      });
+    });
 
     // let lower_limit, upper_limit;
     // if(req.body.budget==0){lower_limit = -1; upper_limit = 0;}
