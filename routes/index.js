@@ -192,7 +192,7 @@ router.post('/events/details', (req, res) => {
       else{
           console.log("specific events");
           console.log(result);
-          res.render('userEvent',{ event : result, query: req.body })
+          res.render('userEvent',{ event : result,query: req.body })
       }
     });
     // console.log(req.body);
