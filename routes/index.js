@@ -22,25 +22,27 @@ router.get('/', (req, res) => {
 
 //Test
 router.get('/schedule', (req, res) => {
-
-    Event.find(
-        {},
-        (err, data) => {
-            if(err) console.log(err);
-            else res.render('schedule');
-        }
-    );
+    res.render('schedule');
 });
 
 router.post('/schedule', (req, res) => {
-    console.log(req);
-    Event.find(
-        {},
-        (err, data) => {
-            if(err) console.log(err);
-            else res.render('schedule');
-        }
-    );
+    console.log(req.body);
+    //Yan
+    temp = uuid.v4();
+    var sql = "INSERT INTO `userpref` (group_type, queryID, budget, groupsize, Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.size+"', '"+req.body.interests+"')";
+    con.query(sql,function (err, result) {
+      if (err) throw err;
+      else{
+          let new_sql = "INSERT INTO `schedPref`(quiryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
+          con.query(new_sql, (err, new_result)=>{
+              console.log(new_result);
+          });
+          console.log("find all events");
+
+          //TBD(Sahil && Marek): new quiry && a new ejs file
+          res.render('admin');
+      }
+    });
 });
 
 router.get('/schedule/events', (req, res) => {
@@ -73,6 +75,21 @@ router.post('/events', (req, res) => {
     // Yan: add quiry to DB
     //TBD
     // let temp = uuid.v4();
+    temp = uuid.v4();
+    var sql = "INSERT INTO `userpref` (group_type, queryID, budget, groupsize, Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.size+"', '"+req.body.interests+"')";
+    con.query(sql,function (err, result) {
+      if (err) throw err;
+      else{
+          let new_sql = "INSERT INTO `schedPref`(quiryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
+          con.query(new_sql, (err, new_result)=>{
+              console.log(new_result);
+          });
+          console.log("find all events");
+
+          //TBD(Sahil && Marek): new quiry && a new ejs file
+          res.render('admin');
+      }
+    });
 
 
 
