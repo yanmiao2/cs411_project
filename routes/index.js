@@ -18,60 +18,91 @@ router.get('/', (req, res) => {
     // );
 });
 
-// sahils edit
-
-//Test
 router.get('/schedule', (req, res) => {
-
-    Event.find(
-        {},
-        (err, data) => {
-            if(err) console.log(err);
-            else res.render('schedule');
-        }
-    );
+    res.render('schedule');
+    // Event.find(
+    //     {},
+    //     (err, data) => {
+    //         if(err) console.log(err);
+    //         else res.render('schedule');
+    //     }
+    // );
 });
 
 router.post('/schedule', (req, res) => {
-    console.log(req);
-    Event.find(
-        {},
-        (err, data) => {
-            if(err) console.log(err);
-            else res.render('schedule');
+
+    // save the quiry to DB
+    console.log(req.body);
+    temp = uuid.v4();
+    var sql = "INSERT INTO `userpref` (group_type, queryID, budget,Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.interests+"')";
+    con.query(sql,function (err, result) {
+        if (err) throw err;
+        else{
+            let new_sql = "INSERT INTO `schedPref`(quiryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
+            con.query(new_sql, (err, new_result)=>{
+                // console.log(new_result);
+            });
+            console.log("find all events");
         }
-    );
+    });
+
+    // ****************************************************************************
+    //TBD(Sahil && Marek): new quiry && a new ejs file
+    res.render('admin');
+
+
+    // Event.find(
+    //     {},
+    //     (err, data) => {
+    //         if(err) console.log(err);
+    //         else res.render('schedule');
+    //     }
+    // );
 });
 
 router.get('/schedule/events', (req, res) => {
-    var start_date = "2020-08-15"
-    var end_date = "2020-09-15"
-    var budget = 100
-    con.query("select * from `Updated Events` where date>" + "'" + start_date + "'" + " and date<" + "'" + end_date + "'",function (err, result) {
-      if (err) throw err;
-      else{
-          console.log("find all events");
-          res.render('adminEvents',{ events : result })
-      }
-    });
+    // var start_date = "2020-08-15"
+    // var end_date = "2020-09-15"
+    // var budget = 100
+    // con.query("select * from `Updated Events` where date>" + "'" + start_date + "'" + " and date<" + "'" + end_date + "'",function (err, result) {
+    //   if (err) throw err;
+    //   else{
+    //       console.log("find all events");
+    //       res.render('adminEvents',{ events : result })
+    //   }
+    // });
 });
 
 router.get('/events', (req, res) => {
-    Event.find(
-        {},
-        (err, data) => {
-            if(err) console.log(err);
-            else{
-                res.render('userEvents',{ events : data })
-            }
-        }
-    );
+    res.render('userEvents')
+    // Event.find(
+    //     {},
+    //     (err, data) => {
+    //         if(err) console.log(err);
+    //         else{
+    //             res.render('userEvents',{ events : data })
+    //         }
+    //     }
+    // );
 });
 
 router.post('/events', (req, res) => {
     console.log(req.body);
     // TBD - Yan: add query to DB
     // let temp = uuid.v4();
+    temp = uuid.v4();
+    var sql = "INSERT INTO `userpref` (group_type, queryID, budget,Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.interests+"')";
+    con.query(sql,function (err, result) {
+        if (err) throw err;
+        else{
+            let new_sql = "INSERT INTO `singleEventPref`(quiryID, Date, StartTime, EndTime) VALUES('"+temp+"', '"+req.body.date+"','"+req.body.startTime+"','"+req.body.endTime+"')"
+            con.query(new_sql, (err, new_result)=>{
+                // console.log(new_result);
+            });
+            console.log("find all events");
+        }
+    });
+
 
     //TBD - Sahil and Marek:
     //-------------------------------------------
@@ -120,7 +151,7 @@ router.post('/events', (req, res) => {
 
     con.query(sql, function (err, result) {
         if (err) throw err;
-        res.render('userEvents',{ events : result })
+        res.render('userEvents',{ events : result, query: req.body })
     });
 
     // let lower_limit, upper_limit;
@@ -161,7 +192,7 @@ router.post('/events/details', (req, res) => {
       else{
           console.log("specific events");
           console.log(result);
-          res.render('userEvent',{ event : result })
+          res.render('userEvent',{ event : result, query: req.body })
       }
     });
     // console.log(req.body);

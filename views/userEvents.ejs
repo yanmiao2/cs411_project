@@ -13,7 +13,10 @@
     <li>
         <form action="/events/details" method="post" style="float: right;display: inline-block;">
                     <input type="hidden" name="eventID" value="<%= events[i].EventID%>">
-
+                    <input type="hidden" name="date" value="<%= query.date%>">
+                    <input type="hidden" name="group" value="<%= query.group%>">
+                    <input type="hidden" name="size" value="<%= query.size%>">
+                    <input type="hidden" name="budget" value="<%= query.budget%>">
                     <button type="Submit" class="btn btn-info">Details</button>
         </form>
         <div class="lead mb-3">
