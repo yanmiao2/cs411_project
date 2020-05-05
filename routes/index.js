@@ -55,56 +55,67 @@ router.get('/events', (req, res) => {
 
 router.post('/events', (req, res) => {
     console.log(req.body);
+    // Yan: add quiry to DB
     // let temp = uuid.v4();
-    var sql = "INSERT INTO userpref (group_type, available_date, queryID, available_time, budget, location, groupsize) VALUES ('"+req.body.group_type+"', '"+req.body.date+"','"+primary+"', '"+req.body.time+"', '"+req.body.budget+"', 'Chicago', '1000')";
+
+    //Sahil and MareK:
+    var sql = "Select * from Events";
       con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log("1 record inserted");
+        res.render('userEvents',{ events : result })
       });
 
-    let lower_limit, upper_limit;
-    if(req.body.budget==0){lower_limit = -1; upper_limit = 0;}
-    else if(req.body.budget==1){lower_limit = 1; upper_limit = 50;}
-    else if(req.body.budget==2){lower_limit = 51; upper_limit = 10000;}
-    // console.log(lower_limit);
-    if(req.body.date==""){
-        Event.find(
-            // TBD: Fill the below search condition based on req.body
-            // ticket_price:{$gte: lower_limit, $lte: upper_limit}
-            {ticket_price:{$gte: lower_limit, $lte: upper_limit}},
-            (err, data) => {
-                if(err) console.log(err);
-                else{
-                    console.log(lower_limit);
-                    res.render('userEvents',{ events : data, query:req.body })
-                }
-            }
-        );
-    }else{
-        Event.find(
-            // TBD: Fill the below search condition based on req.body
-            {event_date:req.body.date,ticket_price:{$gte: lower_limit, $lte: upper_limit}},
-            (err, data) => {
-                if(err) console.log(err);
-                else{
-                    res.render('userEvents',{ events : data,query:req.body })
-                }
-            }
-        );
-    }
+    // let lower_limit, upper_limit;
+    // if(req.body.budget==0){lower_limit = -1; upper_limit = 0;}
+    // else if(req.body.budget==1){lower_limit = 1; upper_limit = 50;}
+    // else if(req.body.budget==2){lower_limit = 51; upper_limit = 10000;}
+    // // console.log(lower_limit);
+    // if(req.body.date==""){
+    //     Event.find(
+    //         // TBD: Fill the below search condition based on req.body
+    //         // ticket_price:{$gte: lower_limit, $lte: upper_limit}
+    //         {ticket_price:{$gte: lower_limit, $lte: upper_limit}},
+    //         (err, data) => {
+    //             if(err) console.log(err);
+    //             else{
+    //                 console.log(lower_limit);
+    //                 res.render('userEvents',{ events : data, query:req.body })
+    //             }
+    //         }
+    //     );
+    // }else{
+    //     Event.find(
+    //         // TBD: Fill the below search condition based on req.body
+    //         {event_date:req.body.date,ticket_price:{$gte: lower_limit, $lte: upper_limit}},
+    //         (err, data) => {
+    //             if(err) console.log(err);
+    //             else{
+    //                 res.render('userEvents',{ events : data,query:req.body })
+    //             }
+    //         }
+    //     );
+    // }
 });
 
 router.post('/events/details', (req, res) => {
-    console.log(req.body);
-    Event.find(
-        {_id: req.body.eventID},
-        (err, data) => {
-            if(err) console.log(err);
-            else{
-                res.render('userEvent',{ event : data,query:req.body })
-            }
-        }
-    );
+    con.query("select * from Events e where e.EventID = '"+req.body.eventID+"'",function (err, result) {
+      if (err) throw err;
+      else{
+          console.log("specific events");
+          console.log(result);
+          res.render('userEvent',{ event : result })
+      }
+    });
+    // console.log(req.body);
+    // Event.find(
+    //     {_id: req.body.eventID},
+    //     (err, data) => {
+    //         if(err) console.log(err);
+    //         else{
+    //             res.render('userEvent',{ event : data,query:req.body })
+    //         }
+    //     }
+    // );
 });
 
 router.get('/admin', (req, res) => {
