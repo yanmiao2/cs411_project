@@ -18,7 +18,22 @@ router.get('/', (req, res) => {
     // );
 });
 
+// sahils edit
+
+//Test
 router.get('/schedule', (req, res) => {
+
+    Event.find(
+        {},
+        (err, data) => {
+            if(err) console.log(err);
+            else res.render('schedule');
+        }
+    );
+});
+
+router.post('/schedule', (req, res) => {
+    console.log(req);
     Event.find(
         {},
         (err, data) => {
@@ -56,10 +71,14 @@ router.get('/events', (req, res) => {
 router.post('/events', (req, res) => {
     console.log(req.body);
     // Yan: add quiry to DB
+    //TBD
     // let temp = uuid.v4();
+
+
 
     //Sahil and MareK:
     var sql = "Select * from Events";
+    // sql = "select * from Events e where e.EventID = '"+req.body.eventID+"' ";
       con.query(sql, function (err, result) {
         if (err) throw err;
         res.render('userEvents',{ events : result })
