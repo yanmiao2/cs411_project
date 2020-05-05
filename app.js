@@ -47,6 +47,8 @@ app.use(function(req, res, next) {
 
 // Routes
 app.use('/', require('./routes/index.js'));
+app.use('/admin/analysis', require('./routes/admin.js'));
+
 
 const PORT = process.env.PORT || 8000;
 
