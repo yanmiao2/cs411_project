@@ -47,7 +47,7 @@ router.post('/schedule', (req, res) => {
     });
 
     // ****************************************************************************
-    //TBD(Sahil && Marek): new quiry && a new ejs file
+    //TBD(Sahil && Marek): new query && a new ejs file
     res.render('admin');
 
 
@@ -110,12 +110,15 @@ router.post('/events', (req, res) => {
     var group = req.body.group_type
     var size = req.body.size
     var budget = req.body.budget
-
     if(budget=='') budget = Number.MAX_SAFE_INTEGER
 
-    var interest = ['','','','','']
+    var start = req.body.startTime
+    var end = req.body.endTime
+
+    var interest = ['','','','','','']
+    // interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
     if("interests" in req.body){
-      interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
+      interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
       var i;
       if(typeof req.body.interests === "string"){
           interest[0] = req.body.interests
@@ -127,15 +130,17 @@ router.post('/events', (req, res) => {
           }
       }
     }
-    // Group types : Couple, Family, Friends, Professional
+    // Group types : Couple, Family, Friends
     if(group!="none"){
         switch(group){
             case "Couple":
-
+                interest[5] = "Romantic"
                 break;
             case "Family":
+                interest[5] = "Family"
                 break;
             case "Friends":
+                interest[5] = "Friends"
                 break;
             default:
                 break;
@@ -143,47 +148,16 @@ router.post('/events', (req, res) => {
     }
 
     if(date == ""){
-        var sql = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%')"
+        var sql = "select * from events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.start_time>= '"+start+"' and e.end_time <= '"+end+"' "
     }
     else{
-        var sql = "select * from Events e where e.date = '"+date+"' and e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%')"
+        var sql = "select * from events e where e.date_type = '"+date+"' and e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.start_time>= '"+start+"' and e.end_time <= '"+end+"'  "
     }
 
     con.query(sql, function (err, result) {
         if (err) throw err;
         res.render('userEvents',{ events : result, query: req.body })
     });
-
-    // let lower_limit, upper_limit;
-    // if(req.body.budget==0){lower_limit = -1; upper_limit = 0;}
-    // else if(req.body.budget==1){lower_limit = 1; upper_limit = 50;}
-    // else if(req.body.budget==2){lower_limit = 51; upper_limit = 10000;}
-    // // console.log(lower_limit);
-    // if(req.body.date==""){
-    //     Event.find(
-    //         // TBD: Fill the below search condition based on req.body
-    //         // ticket_price:{$gte: lower_limit, $lte: upper_limit}
-    //         {ticket_price:{$gte: lower_limit, $lte: upper_limit}},
-    //         (err, data) => {
-    //             if(err) console.log(err);
-    //             else{
-    //                 console.log(lower_limit);
-    //                 res.render('userEvents',{ events : data, query:req.body })
-    //             }
-    //         }
-    //     );
-    // }else{
-    //     Event.find(
-    //         // TBD: Fill the below search condition based on req.body
-    //         {event_date:req.body.date,ticket_price:{$gte: lower_limit, $lte: upper_limit}},
-    //         (err, data) => {
-    //             if(err) console.log(err);
-    //             else{
-    //                 res.render('userEvents',{ events : data,query:req.body })
-    //             }
-    //         }
-    //     );
-    // }
 });
 
 router.post('/events/details', (req, res) => {
@@ -390,27 +364,27 @@ router.post("/admin/delete",(req, res) => {
 
 //This is to add new UUID
 
-// router.get("/test",(req,res)=>{
-//     // let temp = uuid.v4();
-//     // let sql = "UPDATE `uuid_test` SET `UUID` = '"+temp+"' WHERE `uuid_test`.`UUID` = 'null1';"
-//     var sql = "select * from `Updated Events`";
-//     con.query(sql,function (err, result) {
-//       if (err) throw err;
-//       else{
-//           console.log(result.length);
-//           for(let i =0; i<result.length;i++){
-//               // var sql = "INSERT INTO `Updated Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
-//               let temp = uuid.v4();
-//               new_sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES('"+temp+"','"+result[i].Name+"','"+result[i].URL+"', '"+result[i].Price+"', '"+result[i].StartTime+"', '"+result[i].Location+"', '"+result[i].Date+"', '"+result[i].Description+"', '"+result[i].Type+"')";
-//               con.query(new_sql,(err,new_result)=>{
-//                   console.log("insert 1");
-//                   console.log(new_result);
-//               })
-//           }
-//           res.render('admin');
-//       }
-//     });
-// });
+router.get("/test",(req,res)=>{
+    // let temp = uuid.v4();
+    // let sql = "UPDATE `uuid_test` SET `UUID` = '"+temp+"' WHERE `uuid_test`.`UUID` = 'null1';"
+    var sql = "select * from `Events`";
+    con.query(sql,function (err, result) {
+      if (err) throw err;
+      else{
+          console.log(result.length);
+          for(let i =0; i<result.length;i++){
+              // var sql = "INSERT INTO `Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
+              let temp = uuid.v4();
+              new_sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Date_type, Description, Type) VALUES('"+temp+"','"+result[i].Name+"','"+result[i].URL+"', '"+result[i].Price+"', '"+result[i].StartTime+"', '"+result[i].Location+"', '"+result[i].Date+"', '"+result[i].Date_type+"', '"+result[i].Description+"', '"+result[i].Type+"')";
+              con.query(new_sql,(err,new_result)=>{
+                  console.log("insert 1");
+                  console.log(new_result);
+              })
+          }
+          res.render('admin');
+      }
+    });
+});
 
 // add update delete
 module.exports = router;
