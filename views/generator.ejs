@@ -18,8 +18,7 @@
     <% let k = 0 %>
     <% let m = 0 %>
     <% while((j<day3_len || k<day2_len || m<day2_len) && flag==true){ %>
-                <br>
-                <br>
+                <br><br>
                 <h3>Schedule <%= count+1 %></h3>
                 <% if(m<day1_len){ %>
                     <h5>Day 1:</h5>
@@ -46,8 +45,9 @@
                     </form>
                 <% } %>
                 <% if(m < day1b.length){ %>
-                    <br>
-                    <br>
+                    <% if(m<day1a.length){ %>
+                        <br><br>
+                    <% } %>
                     <span style="display: inline-block; width:400px;"><%= day1b[m].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day1b[m].Date %></span>
                     <span style="display: inline-block; width:160px;"><%= day1b[m].StartTime %></span>
@@ -68,9 +68,9 @@
                                 <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
                 <% } %>
-                <br>
-                <br>
                 <% if(k<day2_len){ %>
+                    <br>
+                    <br>
                     <h5>Day 2:</h5>
                 <% } %>
                 <% if(k < day2a.length){ %>
@@ -95,7 +95,9 @@
                     </form>
                 <% } %>
                 <% if(k < day2b.length){ %>
-                    <br><br>
+                    <% if(k<day2a.length){ %>
+                        <br><br>
+                    <% } %>
                     <span style="display: inline-block; width:400px;"><%= day2b[k].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day2b[k].Date %></span>
                     <span style="display: inline-block; width:160px;"><%= day2b[k].StartTime %></span>
@@ -116,9 +118,10 @@
                                 <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
                 <% } %>
-                <br>
-                <br>
+
                 <% if(j<day3_len){ %>
+                    <br>
+                    <br>
                     <h5>Day 3:</h5>
                 <% } %>
                 <% if(j < day3a.length){ %>
@@ -143,7 +146,9 @@
                     </form>
                 <% } %>
                 <% if(j < day3b.length){ %>
-                    <br><br>
+                    <% if(j<day3a.length){ %>
+                        <br><br>
+                    <% } %>
                     <span style="display: inline-block; width:400px;"><%= day3b[j].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day3b[j].Date %></span>
                     <span style="display: inline-block; width:160px;"><%= day3b[j].StartTime %></span>
