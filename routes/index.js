@@ -38,7 +38,7 @@ router.post('/schedule', (req, res) => {
     con.query(sql,function (err, result) {
         if (err) throw err;
         else{
-            let new_sql = "INSERT INTO `schedPref`(quiryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
+            let new_sql = "INSERT INTO `schedPref`(queryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
             con.query(new_sql, (err, new_result)=>{
                 // console.log(new_result);
             });
@@ -95,7 +95,7 @@ router.post('/events', (req, res) => {
     con.query(sql,function (err, result) {
         if (err) throw err;
         else{
-            let new_sql = "INSERT INTO `singleEventPref`(quiryID, Date, StartTime, EndTime) VALUES('"+temp+"', '"+req.body.date+"','"+req.body.startTime+"','"+req.body.endTime+"')"
+            let new_sql = "INSERT INTO `singleEventPref`(queryID, Date, StartTime, EndTime) VALUES('"+temp+"', '"+req.body.date+"','"+req.body.startTime+"','"+req.body.endTime+"')"
             con.query(new_sql, (err, new_result)=>{
                 // console.log(new_result);
             });
@@ -216,6 +216,7 @@ router.post('/admin', (req, res) => {
       if (err) throw err;
       else{
           if(req.body.pwd == "sights"){
+              console.log(typeof(result[0].Date));
               res.render('adminEvents',{ events : result })
           }
           else
