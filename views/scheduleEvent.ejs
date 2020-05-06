@@ -2,13 +2,7 @@
 <h1>Event Details</h1>
 <br>
 <!-- <a href="/events">Back</a> -->
-<form action="/schedule" method="post" style="float: left;display: inline-block;">
-    <input type="hidden" name="budget" value="<%= query.budget%>">
-    <input type="hidden" name="group_type" value="<%= query.group_type%>">
-    <input type="hidden" name="startdate" value="<%= query.startdate%>">
-    <input type="hidden" name="enddate" value="<%= query.enddate%>">
-    <input type="hidden" name="interests" value="<%= query.interests%>">
-    <button type="Submit" class="btn btn-secondary">Back</button>
+<a href="/schedule">Back</a>
 </form><br><br>
 <h3>Event Name: </h3>
     <p><%= event[0].Name %></p>
