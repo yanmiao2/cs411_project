@@ -23,7 +23,7 @@ router.get("/",(req,res)=>{
                     let sql4 = "SELECT Avg(u.budget) as Budget FROM singleEventPref s JOIN userpref u on s.queryID = u.queryID WHERE u.budget <> '' ";
                     con.query(sql4,function (err, result4){
                         // if(err) throw err;console.log(result4);
-                        let sql5 = "SELECT Avg(u.budget) as Budget FROM schedpref s JOIN userpref u on s.queryID = u.queryID WHERE u.budget <> '' ";
+                        let sql5 = "SELECT Avg(u.budget) as Budget FROM schedpref s JOIN userpref u on s.queryID = u.queryID WHERE u.budget <> '' and u.budget < 10000 ";
                         con.query(sql5,function (err, result5){
                             res.render("analysis",{numSchedule: result1, numEvent: result2, popDay: result3,eventBudget: result4, schedBudget:result5});
                         });
