@@ -190,7 +190,7 @@ router.post('/events', (req, res) => {
 });
 
 router.post('/events/details', (req, res) => {
-    con.query("select * from Events e where e.EventID = '"+req.body.eventID+"'",function (err, result) {
+    con.query("select * from Events e where e.EventID = '"+req.body.EventID+"'",function (err, result) {
       if (err) throw err;
       else{
           res.render('userEvent',{ event : result,query: req.body })

@@ -7,12 +7,11 @@
 <form action="/schedule" method="post">
     <br>
     <h5>Note: Maximum Three Day Range</h5>
-    <label for=""> Start Date:&nbsp &nbsp </label>
-        <input id="startdate" type="date" name="startdate">
-    <br>
-    <label for=""> End Date:&nbsp &nbsp &nbsp </label>
-        <input type="date" name="enddate">
-    <br><br>
+    <label for="">Start Date</label>
+        <input type="date" name="startdate" id = "startdate" >
+<br>
+    <label for="">End Date</label>
+        <input type="date" name="enddate" id ="enddate" onblur ="datelogic()">    <br><br>
     <label for="budget">Budget per Event: &nbsp </label>
     <input type="number" name="budget">
     <br><br>
@@ -36,4 +35,16 @@
     <!-- <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br> -->
     <br>
     <button type="submit" name="button"class="btn btn-primary">Generate Schedule of Events</button>
+    <script>
+      function datelogic() {
+      var x = document.getElementById("startdate").value;
+      var start = new Date(x);
+      var y = document.getElementById("enddate").value;
+      var end = new Date(y);
+      var days = (end-start)/(1000*60*60*24)
+      if(days>2 || days<0){
+      alert("Invalid input for date. Must be a three day range");
+    }
+}
+</script>
 </form>
