@@ -13,16 +13,17 @@
     <%var day1_len = ((day1a.length > day1b.length) ? day1a.length : day1b.length)
     var day2_len = ((day2a.length > day2b.length) ? day2a.length : day2b.length)
     var day3_len = ((day3a.length > day3b.length) ? day3a.length : day3b.length)%>
-    Day1_len: <%= day1_len %>
-    Day2_len: <%= day2_len %>
-    Day3_len: <%= day3_len %>
     <br>
-    <%for(let j = 0; j<day3_len && flag == true;j++){%>
-        <%for(let k = 0; k<day2_len && flag == true;k++){%>
-            <%for(let m = 0; m<day1_len && flag == true;m++){%>
+    <% let j = 0 %>
+    <% let k = 0 %>
+    <% let m = 0 %>
+    <% while((j<day3_len || k<day2_len || m<day2_len) && flag==true){ %>
+                <br>
                 <br>
                 <h3>Schedule <%= count+1 %></h3>
-                <h5>Day 1:</h5>
+                <% if(m<day1_len){ %>
+                    <h5>Day 1:</h5>
+                <% } %>
                 <% if(m < day1a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day1a[m].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day1a[m].Date %></span>
@@ -43,10 +44,10 @@
                                 <input type="hidden" name="EventID" value="<%= day1a[m].EventID%>">
                                 <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
-                    <br>
                 <% } %>
-                <br>
                 <% if(m < day1b.length){ %>
+                    <br>
+                    <br>
                     <span style="display: inline-block; width:400px;"><%= day1b[m].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day1b[m].Date %></span>
                     <span style="display: inline-block; width:160px;"><%= day1b[m].StartTime %></span>
@@ -69,7 +70,9 @@
                 <% } %>
                 <br>
                 <br>
-                <h5>Day 2:</h5>
+                <% if(k<day2_len){ %>
+                    <h5>Day 2:</h5>
+                <% } %>
                 <% if(k < day2a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day2a[k].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day2a[k].Date %></span>
@@ -90,9 +93,9 @@
                                 <input type="hidden" name="EventID" value="<%= day2a[k].EventID%>">
                                 <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
-                    <br>
                 <% } %>
                 <% if(k < day2b.length){ %>
+                    <br><br>
                     <span style="display: inline-block; width:400px;"><%= day2b[k].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day2b[k].Date %></span>
                     <span style="display: inline-block; width:160px;"><%= day2b[k].StartTime %></span>
@@ -115,7 +118,9 @@
                 <% } %>
                 <br>
                 <br>
-                <h5>Day 3:</h5>
+                <% if(j<day3_len){ %>
+                    <h5>Day 3:</h5>
+                <% } %>
                 <% if(j < day3a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day3a[j].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day3a[j].Date %></span>
@@ -136,10 +141,9 @@
                                 <input type="hidden" name="EventID" value="<%= day3a[j].EventID%>">
                                 <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
-                    <br>
                 <% } %>
-                <br>
                 <% if(j < day3b.length){ %>
+                    <br><br>
                     <span style="display: inline-block; width:400px;"><%= day3b[j].Name %></span>
                     <span style="display: inline-block; width:160px;"><%= day3b[j].Date %></span>
                     <span style="display: inline-block; width:160px;"><%= day3b[j].StartTime %></span>
@@ -159,13 +163,14 @@
                                 <input type="hidden" name="EventID" value="<%= day3b[j].EventID%>">
                                 <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
+                    <br>
                 <% } %>
-                <br>
+                <% j++ %>
+                <% k++ %>
+                <% m++ %>
                 <% count++ %>
                 <% if(count>=10){ %>
                     <br><br>
                     <% flag = false; break; %>
                 <% } %>
-            <% }%>
-        <% }%>
     <% }%>
