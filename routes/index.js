@@ -77,6 +77,7 @@ router.post('/schedule', (req, res) => {
                 break;
         }
     }
+    console.log("Interest: ",interest)
     // Day 1a
     var curr_date = convert_date(start)
     var sql_1 = sql_a(budget,interest,curr_date)
@@ -109,6 +110,12 @@ router.post('/schedule', (req, res) => {
                         con.query(sql_6, function (err, result6) {
                             if (err) throw err
                             shuffle(result6)
+                            console.log("Day 1a: ",result1)
+                            console.log("Day 1b: ",result2)
+                            console.log("Day 2a: ",result3)
+                            console.log("Day 2b: ",result4)
+                            console.log("Day 3a: ",result5)
+                            console.log("Day 3b: ",result6)
                             res.render('generator', {day1a:result1,day1b:result2, day2a:result3,day2b:result4,day3a:result5, day3b:result6, query:req.body});
                         })
                     })

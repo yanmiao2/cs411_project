@@ -1,20 +1,29 @@
-<h1>Welcome to CitySights</h1>
-<h3>Contributors: Yan, Sahil, Marek</h3>
+<h1 style="color:white">Welcome to CitySights</h1>
+<h3 style="color:white">Contributors: Yan, Sahil, Marek</h3>
 <br>
-<h3><a href="/admin">Admin Access</a></h3>
+<h3 style="color:white"><a href="/admin">Admin Access</a></h3>
+<style>
+body {
+  background-image: url('https://github.com/yanmiao2/cs411_project/blob/Working_copy/willis-tower-chicago-night-skyscrapers-cityscape.jpg?raw=true');
+  background-repeat:no-repeat;
+  background-position: center;
+  background-size: 100%;
+
+}
+</style>
 <!-- <h4>See below link for schedule</h4> -->
-<h3><a href="/schedule">Schedule Search</a></h3>
+<h3 style="color:white"><a href="/schedule">Schedule Search</a></h3>
 <br>
-<h1>Find Events</h1>
+<h1 style="color:white">Find Events</h1>
 <form action="/events" method="post">
     <br>
-    <label for="">Date:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
-        <input type="date" name="date" value="">
+    <label for="" style="color:white">Date:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
+        <input type="date" name="date" value="" style="color:white">
     <br><br>
-    <label for="budget">Budget: &nbsp &nbsp &nbsp &nbsp</label>
+    <label for="budget" style="color:white"> Budget: &nbsp &nbsp &nbsp &nbsp</label>
     <input type="number" name="budget">
     <br><br>
-    <label for="">Interests: &nbsp &nbsp &nbsp</label>
+    <label for="" style="color:white">Interests: &nbsp &nbsp &nbsp</label>
     <select id="interests" name="interests" multiple>
         <option value="Theatre">Theatre</option>
         <option value="Music">Music</option>
@@ -23,7 +32,7 @@
         <option value="Religion">Religion</option>
     </select>
     <br><br>
-    <label for="">Group Type: &nbsp</label>
+    <label for="" style="color:white">Group Type: &nbsp</label>
     <select id="group_type" name="group_type">
       <option value="none"></option>
         <option value="Couple">Couple</option>
@@ -31,17 +40,17 @@
         <option value="Friends">Friends</option>
     </select>
     <br><br>
-    <label for="">Time Range Start: &nbsp </label>
+    <label for="" style="color:white">Time Range Start: &nbsp </label>
     <input type="time" id="startTime"
        name="startTime" value = "00:00"
        min="00:00" max="23:00">
     <br>
-    <label for="">Time Range End: &nbsp &nbsp </label>
+    <label for="" style="color:white">Time Range End: &nbsp &nbsp </label>
    <input type="time" id="endTime"
       name="endTime" value = "23:59"
       min="01:00" max="23:59">
     <br><br>
-    <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br><br>
+    <button type="submit" name="button"class="btn btn-success" style="color:white">Find Single Event</button><br><br><br>
     <!-- </select>
     <label for="">Group Size</label> -->
     <!-- <select id="size" name="size">

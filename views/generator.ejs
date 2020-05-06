@@ -13,6 +13,10 @@
     <%var day1_len = ((day1a.length > day1b.length) ? day1a.length : day1b.length)
     var day2_len = ((day2a.length > day2b.length) ? day2a.length : day2b.length)
     var day3_len = ((day3a.length > day3b.length) ? day3a.length : day3b.length)%>
+    Day1_len: <%= day1_len %>
+    Day2_len: <%= day2_len %>
+    Day3_len: <%= day3_len %>
+    <br>
     <%for(let j = 0; j<day3_len && flag == true;j++){%>
         <%for(let k = 0; k<day2_len && flag == true;k++){%>
             <%for(let m = 0; m<day1_len && flag == true;m++){%>
@@ -21,11 +25,12 @@
                 <h5>Day 1:</h5>
                 <% if(m < day1a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day1a[m].Name %></span>
-                    <span style="display: inline-block; width:300px;"><%= day1a[m].StartTime %></span>
+                    <span style="display: inline-block; width:160px;"><%= day1a[m].Date %></span>
+                    <span style="display: inline-block; width:160px;"><%= day1a[m].StartTime %></span>
                     <% if(day1a[m].Price==0){ %>
                         <span style="display: inline-block; width:300px;">Free</span>
                     <% } else if(day1a[m].Price==-1){ %>
-                        <span style="display: inline-block; width:300px;">Price not available</span>
+                        <span style="display: inline-block; width:300px;">Not available</span>
                     <% } else { %>
                         <span style="display: inline-block; width:100px;"><%= "$" + day1a[m].Price %></span>
                     <% } %>
@@ -36,18 +41,19 @@
                                 <input type="hidden" name="enddate" value="<%= query.enddate%>">
                                 <input type="hidden" name="interests" value="<%= query.interests%>">
                                 <input type="hidden" name="EventID" value="<%= day1a[m].EventID%>">
-                                <button type="Submit" class="btn btn-info">Details</button>
+                                <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
                     <br>
                 <% } %>
-                <br><br>
+                <br>
                 <% if(m < day1b.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day1b[m].Name %></span>
-                    <span style="display: inline-block; width:300px;"><%= day1b[m].StartTime %></span>
+                    <span style="display: inline-block; width:160px;"><%= day1b[m].Date %></span>
+                    <span style="display: inline-block; width:160px;"><%= day1b[m].StartTime %></span>
                     <% if(day1b[m].Price==0){ %>
                         <span style="display: inline-block; width:300px;">Free</span>
                     <% } else if(day1b[m].Price==-1){ %>
-                        <span style="display: inline-block; width:300px;">Price not available</span>
+                        <span style="display: inline-block; width:300px;">Not available</span>
                     <% } else { %>
                         <span style="display: inline-block; width:100px;"><%= "$" + day1b[m].Price %></span>
                     <% } %>
@@ -58,7 +64,7 @@
                         <input type="hidden" name="enddate" value="<%= query.enddate%>">
                         <input type="hidden" name="interests" value="<%= query.interests%>">
                                 <input type="hidden" name="EventID" value="<%= day1b[m].EventID%>">
-                                <button type="Submit" class="btn btn-info">Details</button>
+                                <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
                 <% } %>
                 <br>
@@ -66,11 +72,12 @@
                 <h5>Day 2:</h5>
                 <% if(k < day2a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day2a[k].Name %></span>
-                    <span style="display: inline-block; width:300px;"><%= day2a[k].StartTime %></span>
+                    <span style="display: inline-block; width:160px;"><%= day2a[k].Date %></span>
+                    <span style="display: inline-block; width:160px;"><%= day2a[k].StartTime %></span>
                     <% if(day2a[k].Price==0){ %>
                         <span style="display: inline-block; width:300px;">Free</span>
                     <% } else if(day2a[k].Price==-1){ %>
-                        <span style="display: inline-block; width:300px;">Price not available</span>
+                        <span style="display: inline-block; width:300px;">Not available</span>
                     <% } else { %>
                         <span style="display: inline-block; width:100px;"><%= "$" + day2a[k].Price %></span>
                     <% } %>
@@ -81,17 +88,18 @@
                         <input type="hidden" name="enddate" value="<%= query.enddate%>">
                         <input type="hidden" name="interests" value="<%= query.interests%>">
                                 <input type="hidden" name="EventID" value="<%= day2a[k].EventID%>">
-                                <button type="Submit" class="btn btn-info">Details</button>
+                                <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
-                    <br><br>
+                    <br>
                 <% } %>
                 <% if(k < day2b.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day2b[k].Name %></span>
-                    <span style="display: inline-block; width:300px;"><%= day2b[k].StartTime %></span>
+                    <span style="display: inline-block; width:160px;"><%= day2b[k].Date %></span>
+                    <span style="display: inline-block; width:160px;"><%= day2b[k].StartTime %></span>
                     <% if(day2b[k].Price==0){ %>
                         <span style="display: inline-block; width:300px;">Free</span>
                     <% } else if(day2b[k].Price==-1){ %>
-                        <span style="display: inline-block; width:300px;">Price not available</span>
+                        <span style="display: inline-block; width:300px;">Not available</span>
                     <% } else { %>
                         <span style="display: inline-block; width:100px;"><%= "$" + day2b[k].Price %></span>
                     <% } %>
@@ -102,7 +110,7 @@
                         <input type="hidden" name="enddate" value="<%= query.enddate%>">
                         <input type="hidden" name="interests" value="<%= query.interests%>">
                                 <input type="hidden" name="EventID" value="<%= day2b[k].EventID%>">
-                                <button type="Submit" class="btn btn-info">Details</button>
+                                <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
                 <% } %>
                 <br>
@@ -110,11 +118,12 @@
                 <h5>Day 3:</h5>
                 <% if(j < day3a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day3a[j].Name %></span>
-                    <span style="display: inline-block; width:300px;"><%= day3a[j].StartTime %></span>
+                    <span style="display: inline-block; width:160px;"><%= day3a[j].Date %></span>
+                    <span style="display: inline-block; width:160px;"><%= day3a[j].StartTime %></span>
                     <% if(day3a[j].Price==0){ %>
                         <span style="display: inline-block; width:300px;">Free</span>
                     <% } else if(day3a[j].Price==-1){ %>
-                        <span style="display: inline-block; width:300px;">Price not available</span>
+                        <span style="display: inline-block; width:300px;">Not available</span>
                     <% } else { %>
                         <span style="display: inline-block; width:100px;"><%= "$" + day3a[j].Price %></span>
                     <% } %>
@@ -125,18 +134,19 @@
                         <input type="hidden" name="enddate" value="<%= query.enddate%>">
                         <input type="hidden" name="interests" value="<%= query.interests%>">
                                 <input type="hidden" name="EventID" value="<%= day3a[j].EventID%>">
-                                <button type="Submit" class="btn btn-info">Details</button>
+                                <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
                     <br>
                 <% } %>
                 <br>
                 <% if(j < day3b.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day3b[j].Name %></span>
-                    <span style="display: inline-block; width:300px;"><%= day3b[j].StartTime %></span>
+                    <span style="display: inline-block; width:160px;"><%= day3b[j].Date %></span>
+                    <span style="display: inline-block; width:160px;"><%= day3b[j].StartTime %></span>
                     <% if(day3b[j].Price==0){ %>
                         <span style="display: inline-block; width:300px;">Free</span>
                     <% } else if(day3b[j].Price==-1){ %>
-                        <span style="display: inline-block; width:300px;">Price not available</span>
+                        <span style="display: inline-block; width:300px;">Not available</span>
                     <% } else { %>
                         <span style="display: inline-block; width:100px;"><%= "$" + day3b[j].Price %></span>
                     <% } %>
@@ -147,7 +157,7 @@
                         <input type="hidden" name="enddate" value="<%= query.enddate%>">
                         <input type="hidden" name="interests" value="<%= query.interests%>">
                                 <input type="hidden" name="EventID" value="<%= day3b[j].EventID%>">
-                                <button type="Submit" class="btn btn-info">Details</button>
+                                <button type="Submit" class="btn btn-info btn-sm">Details</button>
                     </form>
                 <% } %>
                 <br>
