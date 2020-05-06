@@ -1,17 +1,50 @@
 <h1>CitySights</h1>
-<a href="/">Back to Homebage</a><br>
+<a href="/">Back to Homepage</a><br>
 
 <% let count = 0; let flag = true%>
-    <% for(let j = 0; j<day3.length && flag == true;j++){%>
-        <% for(let k = 0; k<day2.length && flag == true;k++){%>
-            <% for(let m = 0; m<day1.length && flag == true;m++){%>
-                <li> <h3>Schedule <%= count+1 %></h3> </li>
-                <p>Day1: <%= day1[m].Name %></p>
-                <p>Day2: <%= day2[k].Name %></p>
-                <p>Day3: <%= day3[j].Name %></p>
+    <%var day1_len = ((day1a.length > day1b.length) ? day1a.length : day1b.length)
+    var day2_len = ((day2a.length > day2b.length) ? day2a.length : day2b.length)
+    var day3_len = ((day3a.length > day3b.length) ? day3a.length : day3b.length)%>
+    <%for(let j = 0; j<day3_len && flag == true;j++){%>
+        <%for(let k = 0; k<day2_len && flag == true;k++){%>
+            <%for(let m = 0; m<day1_len && flag == true;m++){%>
+                <br>
+                <h3>Schedule <%= count+1 %></h3>
+                <br>
+                <h5>Day 1:</h5>
+                <% if(m < day1a.length){ %>
+                    <%= day1a[m].Name %>
+                    <br>
+                <% } %>
+                <% if(m < day1b.length){ %>
+                    <%= day1b[m].Name %>
+                <% } %>
+                <br>
+                <br>
+                <h5>Day 2:</h5>
+                <% if(k < day2a.length){ %>
+                    <%= day2a[k].Name %>
+                    <br>
+                <% } %>
+                <% if(k < day2b.length){ %>
+                    <%= day2b[k].Name %>
+                <% } %>
+                <br>
+                <br>
+                <h5>Day 3:</h5>
+                <% if(j < day3a.length){ %>
+                    <%= day3a[j].Name %>
+                    <br>
+                <% } %>
+                <% if(j < day3b.length){ %>
+                    <%= day3b[j].Name %>
+                <% } %>
                 <br>
                 <% count++ %>
-                <% if(count>=10) {flag = false; break;}%>
+                <% if(count>=10){ %>
+                    <br><br>
+                    <% flag = false; break; %>
+                <% } %>
             <% }%>
         <% }%>
     <% }%>

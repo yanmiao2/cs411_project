@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const helper = require('../helper');
 const Event = require('../models/Event');
 const mysql = require('mysql');
 const con = require('../mysql');
@@ -40,7 +40,6 @@ router.post('/schedule', (req, res) => {
         else{
             let new_sql = "INSERT INTO `schedpref`(queryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
             con.query(new_sql, (err, new_result)=>{
-                // console.log(new_result);
                 if(err) throw err
             });
             console.log("find all events");
@@ -54,13 +53,10 @@ router.post('/schedule', (req, res) => {
     var startdate = req.body.startdate
     var enddate = req.body.enddate
     if(startdate==''){
-        // startdate = '2020-08-15'
-        startdate = '2020-06-25'
+        startdate = '2020-08-15'
     }
     if(enddate==''){
-      // enddate = '2020-08-17'
-      startdate = '2020-06-27'
-
+        enddate = '2020-08-17'
     }
     start = new Date(startdate)
     end = new Date(enddate)
@@ -104,91 +100,107 @@ router.post('/schedule', (req, res) => {
     var day
     start.setDate(start.getDate()+1)
     let finalResult = [];
-    // for(day=0;day<days;day++){
-
-        curr_date = start.toLocaleDateString()
-        var idx = curr_date.indexOf("/")
-        if(idx==1) curr_date = 0 + curr_date
-        idx = curr_date.indexOf("/",3)
-        if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
-        curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
-        console.log(curr_date);
-
-        var sql_1 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"'/3 ORDER BY e.StartTime ASC"
-        // and e.startTime<'18:00:00
+    curr_date = start.toLocaleDateString()
+    var idx = curr_date.indexOf("/")
+    if(idx==1) curr_date = 0 + curr_date
+    idx = curr_date.indexOf("/",3)
+    if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
+    curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
+    //console.log(curr_date);
+    // Day 1a
+    var sql_1 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"' and e.startTime<='18:00:00'"
         con.query(sql_1, function (err, result1) {
-          if (err) throw err;
-          //console.log(result1)
-          // var i
-          // for(i = result1.length - 1; i > 0; i--){
-          //     j = Math.floor(Math.random() * i)
-          //     tempx = result1[i]
-          //     result1[i] = result1[j]
-          //     result1[j] = tempx
-          // }
-          start.setDate(start.getDate()+1)
-          curr_date = start.toLocaleDateString()
-          idx = curr_date.indexOf("/")
-          if(idx==1) curr_date = 0 + curr_date
-          idx = curr_date.indexOf("/",3)
-          if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
-          curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
-          console.log(curr_date);
-          var sql_2 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"'/3 ORDER BY e.StartTime ASC"
-          con.query(sql_2, function (err, result2) {
-              start.setDate(start.getDate()+1)
-              curr_date = start.toLocaleDateString()
-              idx = curr_date.indexOf("/")
-              if(idx==1) curr_date = 0 + curr_date
-              idx = curr_date.indexOf("/",3)
-              if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
-              curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
-              console.log(curr_date);
-              var sql_3 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"'/3 ORDER BY e.StartTime ASC"
-              con.query(sql_3, function (err, result3) {
-                  console.log("result1 is ", result1);
-                  console.log("result2 is ", result2);
-                  console.log("result3 is ", result3);
-                  res.render('generator', {day1:result1,day2:result2, day3:result3});
-              });
-          })
+            if (err) throw err
+            var i
+            for(i = result1.length - 1; i > 0; i--){
+                j = Math.floor(Math.random() * i)
+                tempx = result1[i]
+                result1[i] = result1[j]
+                result1[j] = tempx
+            }
+            //DAY 1b
+            var sql_2 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"' and e.startTime>'18:00:00'"
+            con.query(sql_2, function (err, result2) {
+                if (err) throw err
+                for(i = result2.length - 1; i > 0; i--){
+                    j = Math.floor(Math.random() * i)
+                    tempx = result2[i]
+                    result2[i] = result2[j]
+                    result2[j] = tempx
+                }
+                // DAY 2a
+                start.setDate(start.getDate()+1)
+                curr_date = start.toLocaleDateString()
+                idx = curr_date.indexOf("/")
+                if(idx==1) curr_date = 0 + curr_date
+                idx = curr_date.indexOf("/",3)
+                if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
+                curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
+                //console.log(curr_date);
+                var sql_3 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"' and e.startTime<='18:00:00'"
 
-          // Budget FIX ? Sahil & Marek
-          //***************************************
-          var counter = 0
-          for(counter = 0; counter<result1.length; counter++) {
-            var price = result1[counter].Price
-            if(price>0 && price<=budget){
-                break;
-            }
-            if(counter==(result1.length-1)) {
-              price = -1
-            }
-          }
-          if(price!=-1){
-              budget -= price
-          }
-          if(result1.length==0){
-            price = -1
-          }
-          // finalResult.push(result1)
-          // console.log("THE FINAL result is ", finalResult);
-          // console.log("THE FINAL length is ", finalResult.length);
-          // console.log("first object is",finalResult[0] );
-          // console.log("final result is ", finalResult);
-          // console.log("type result1 is ", typeof(result1));
-        })
-        // var sql_2 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+startdate+"' and e.startTime>='18:00:00'"
-        // con.query(sql_2, function (err, result2) {
-        // })
-    // }
-    console.log("all good")
+                con.query(sql_3, function (err, result3) {
+                    if (err) throw err
+                    for(i = result3.length - 1; i > 0; i--){
+                        j = Math.floor(Math.random() * i)
+                        tempx = result3[i]
+                        result3[i] = result3[j]
+                        result3[j] = tempx
+                    }
+                    //DAY 2b
+                    var sql_4 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"' and e.startTime>'18:00:00'"
+                    con.query(sql_4, function (err, result4) {
+                        if (err) throw err
+                        for(i = result4.length - 1; i > 0; i--){
+                            j = Math.floor(Math.random() * i)
+                            tempx = result4[i]
+                            result4[i] = result4[j]
+                            result4[j] = tempx
+                        }
+                        ///DAY 3a
+                        start.setDate(start.getDate()+1)
+                        curr_date = start.toLocaleDateString()
+                        idx = curr_date.indexOf("/")
+                        if(idx==1) curr_date = 0 + curr_date
+                        idx = curr_date.indexOf("/",3)
+                        if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
+                        curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
+                        console.log(curr_date);
+
+                        var sql_5 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"' and e.startTime<='18:00:00'"
+                        con.query(sql_5, function (err, result5 ) {
+                            if (err) throw err
+                            for(i = result5.length - 1; i > 0; i--){
+                                j = Math.floor(Math.random() * i)
+                                tempx = result5[i]
+                                result5[i] = result5[j]
+                                result5[j] = tempx
+                            }
+                            var sql_6 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"' and e.startTime>'18:00:00'"
+                            con.query(sql_6, function (err, result6) {
+                                if (err) throw err
+                                for(i = result6.length - 1; i > 0; i--){
+                                    j = Math.floor(Math.random() * i)
+                                    tempx = result6[i]
+                                    result6[i] = result6[j]
+                                    result6[j] = tempx
+                                }
+                                console.log("result1 is ", result1);
+                                console.log("result2 is ", result2);
+                                console.log("result3 is ", result3);
+                                console.log("result4 is ", result4);
+                                console.log("result5 is ", result5);
+                                console.log("result6 is ", result6);
+                                res.render('generator', {day1a:result1,day1b:result2, day2a:result3,day2b:result4,day3a:result5, day3b:result6});
+                            });
+                        })
+                    })
+                })
+            })
+    })
     console.log("SCHEDULE POST END")
     console.log("************************")
-
 });
-
-
 
 router.get('/events', (req, res) => {
     res.render('userEvents')
@@ -274,16 +286,6 @@ router.post('/events/details', (req, res) => {
           res.render('userEvent',{ event : result,query: req.body })
       }
     });
-    // console.log(req.body);
-    // Event.find(
-    //     {_id: req.body.eventID},
-    //     (err, data) => {
-    //         if(err) console.log(err);
-    //         else{
-    //             res.render('userEvent',{ event : data,query:req.body })
-    //         }
-    //     }
-    // );
 });
 
 router.get('/admin', (req, res) => {
@@ -302,19 +304,6 @@ router.post('/admin', (req, res) => {
               res.redirect('/admin')
       }
     });
-    // This is old mongoDB version
-    // Event.find(
-    //     {},
-    //     (err, data) => {
-    //         if(err) console.log(err);
-    //         else{
-    //             if(req.body.pwd == "sights")
-    //                 res.render('adminEvents',{ events : data })
-    //             else
-    //                 res.redirect('/admin')
-    //         }
-    //     }
-    // );
 });
 
 //find details of one event
@@ -327,17 +316,6 @@ router.post('/admin/events', (req, res) => {
           res.render('adminEvent',{ event : result })
       }
     });
-    // Event.find(
-    //     {_id: req.body.eventID},
-    //     (err, data) => {
-    //         if(err) console.log(err);
-    //         else{
-    //             console.log(data);
-    //             console.log(data[0].event_type[0]);
-    //             res.render('adminEvent',{ event : data })
-    //         }
-    //     }
-    // );
 });
 
 router.get('/admin/add', (req, res) => {
@@ -346,8 +324,6 @@ router.get('/admin/add', (req, res) => {
 
 router.post('/admin/add', (req, res) => {
     const {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}= req.body;
-    // const newEvent = {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}
-    // let temp = uuid.v4();
     var sql = "INSERT INTO `Events` (Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES ('"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', '"+location+"', '"+event_date+"', '"+description+"', '"+event_type+"')";
       con.query(sql, function (err, result) {
         if (err) throw err;
@@ -360,36 +336,12 @@ router.post('/admin/add', (req, res) => {
           }
         });
       });
-    //old mongo solution
-    // var data = Event(newEvent);
-    // if(event_name,event_date,location){
-    //     data.save(function(err) {
-    //         if (err) {
-    //         console.log("Error in Insert Record");
-    //         } else {
-    //             Event.find(
-    //                 {},
-    //                 (err, data) => {
-    //                     if(err) console.log(err);
-    //                     else{
-    //                         res.render('adminEvents',{ events : data })
-    //                     }
-    //                 }
-    //             );
-    //         }
-    //     });
-    // }else{
-    //     console.log("please enter all fields");
-    //     res.render('adminAddEvent');
-    // }
 });
 
 router.post('/admin/update', (req, res) => {
     const {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}= req.body;
     console.log(req.body);
-    // const newEvent = {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}
     var sql = "Update Events e SET Name = '"+event_name+"', URL = '"+web_link+"', Price = '"+ticket_price+"', StartTime = '"+start_time+"', Location = '"+location+"', Date = '"+event_date+"', Description = '"+description+"', Type = '"+event_type+"' WHERE e.EventID = '"+req.body.eventID+"' "
-     // (EventID, Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES ('"+temp+"','"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', '"+location+"', '"+event_date+"', '"+description+"', '"+event_type+"')";
       con.query(sql, function (err, result) {
         if (err) throw err;
         console.log(result);
@@ -401,38 +353,8 @@ router.post('/admin/update', (req, res) => {
           }
         });
       });
-
-
-
-
-    // const {event_name,event_date,ticket_price,event_size,start_time,location,web_link,description,event_type}= req.body;
-    // Event.findOneAndUpdate(
-    //     {_id:req.body.eventID},
-    //     {event_name: event_name,
-    //         event_date: event_date,
-    //         ticket_price: ticket_price,
-    //         event_size: event_size,
-    //         start_time: start_time,
-    //         location: location,
-    //         web_link: web_link,
-    //         description: description,
-    //         event_type: event_type},
-    //     function(err, my_res) {
-    //         if (err) {
-    //             console.log("Error in Fetch Data " + err);
-    //         } else {
-    //             Event.find(
-    //                 {},
-    //                 (err, data) => {
-    //                     if(err) console.log(err);
-    //                     else{
-    //                         res.render('adminEvents',{ events : data })
-    //                     }
-    //                 }
-    //             );
-    //         }
-    //     });
 });
+
 router.post("/admin/delete",(req, res) => {
     console.log(req.body);
     var sql = "DELETE FROM Events WHERE EventID='"+req.body.eventID+"'; "
@@ -447,56 +369,7 @@ router.post("/admin/delete",(req, res) => {
           }
         });
       });
-
-    // Event.findOneAndDelete(
-    //     {_id:req.body.eventID},
-    //     function(err, my_res) {
-    //         if (err) {
-    //             console.log("Error in Fetch Data " + err);
-    //         } else {
-    //             Event.find(
-    //                 {},
-    //                 (err, data) => {
-    //                     if(err) console.log(err);
-    //                     else{
-    //                         res.render('adminEvents',{ events : data })
-    //                     }
-    //                 }
-    //             );
-    //         }
-    //     });
 });
-
-
-//This is to add new UUID
-
-// router.get("/test",(req,res)=>{
-//     // let temp = uuid.v4();
-//     // let sql = "UPDATE `uuid_test` SET `UUID` = '"+temp+"' WHERE `uuid_test`.`UUID` = 'null1';"
-//     // var sql = "select * from `Events`";
-//     // con.query(sql,function (err, result) {
-//     //   if (err) throw err;
-//     //   else{
-//     //       console.log(result.length);
-//     //       for(let i =0; i<result.length;i++){
-//     //           // var sql = "INSERT INTO `Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
-//     //           let temp = uuid.v4();
-//     //           new_sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Date_type, Description, Type) VALUES('"+temp+"','"+result[i].Name+"','url', '"+result[i].Price+"', '"+result[i].StartTime+"', '"+result[i].Location+"', '"+result[i].Date+"', '"+result[i].Date_type+"', '"+result[i].Description+"', '"+result[i].Type+"')";
-//     //           con.query(new_sql,(err,new_result)=>{
-//     //               if (err) throw err;
-//     //               // console.log("insert 1");
-//     //               // console.log(new_result);
-//     //           })
-//     //       }
-//     //       res.render('admin');
-//     //   }
-//     // });
-//     var sql = "alter table Events add column `EventID` int(10) unsigned primary KEY AUTO_INCREMENT;"
-//     con.query(sql,function (err, result) {
-//       if (err) throw err;
-//       console.log(result)
-//   });
-// });
 
 // add update delete
 module.exports = router;
