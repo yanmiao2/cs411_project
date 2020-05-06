@@ -1,0 +1,32 @@
+<br>
+<h1>Event Details</h1>
+<br>
+<!-- <a href="/events">Back</a> -->
+<form action="/schedule" method="post" style="float: left;display: inline-block;">
+    <input type="hidden" name="budget" value="<%= query.budget%>">
+    <input type="hidden" name="group_type" value="<%= query.group_type%>">
+    <input type="hidden" name="startdate" value="<%= query.startdate%>">
+    <input type="hidden" name="enddate" value="<%= query.enddate%>">
+    <input type="hidden" name="interests" value="<%= query.interests%>">
+    <button type="Submit" class="btn btn-secondary">Back</button>
+</form><br><br>
+<h3>Event Name: </h3>
+    <p><%= event[0].Name %></p>
+<h3>Date:</h3>
+    <p><%= event[0].Date %></p>
+<h3>Price(USD): </h3>
+    <p><%= event[0].Price %></p>
+<h3>Start Time: </h3>
+    <p><%= event[0].StartTime %></p>
+<h3>Location: </h3>
+    <p><%= event[0].Location %></p>
+<h3>Web Link: </h3>
+    <% if(event[0].URL.includes("https://")) {%>
+        <a href="<%= event[0].URL %>"><%= event[0].URL %></a>
+    <% }else{ %>
+        <a href="https://<%= event[0].URL %>"><%= event[0].URL %></a>
+    <% }%>
+<h3>Description: </h3>
+    <p><%= event[0].Sescription %></p>
+<h3>Event Type: </h3>
+    <p><%= event[0].Type %></p>
