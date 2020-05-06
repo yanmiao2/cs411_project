@@ -20,10 +20,10 @@ router.get("/",(req,res)=>{
                 let sql3 = "SELECT s.Date as Date, count(*) as NUM FROM singleEventPref s JOIN userpref u on s.queryID = u.queryID WHERE s.Date <> '' GROUP BY s.Date ORDER BY NUM DESC LIMIT 1";
                 con.query(sql3,function (err, result3){
                     // if(err) throw err; console.log(result3);
-                    let sql4 = "SELECT Avg(u.budget) as Budget FROM singleEventPref s JOIN userpref u on s.queryID = u.queryID";
+                    let sql4 = "SELECT Avg(u.budget) as Budget FROM singleEventPref s JOIN userpref u on s.queryID = u.queryID WHERE u.budget <> '' ";
                     con.query(sql4,function (err, result4){
                         // if(err) throw err;console.log(result4);
-                        let sql5 = "SELECT Avg(u.budget) as Budget FROM schedpref s JOIN userpref u on s.queryID = u.queryID";
+                        let sql5 = "SELECT Avg(u.budget) as Budget FROM schedpref s JOIN userpref u on s.queryID = u.queryID WHERE u.budget <> '' ";
                         con.query(sql5,function (err, result5){
                             res.render("analysis",{numSchedule: result1, numEvent: result2, popDay: result3,eventBudget: result4, schedBudget:result5});
                         });
