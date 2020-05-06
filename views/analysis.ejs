@@ -1,14 +1,15 @@
 <h1>Citysights</h1>
+<a href="/admin">Back</a>
 <h4>Data Analysis</h4>
 
-<p>Most Popular Day From Search History</p>
 
-<p>Number of Event Query:</p>
+Number of Schedule Query: <%= numSchedule[0].NUM %><br><br>
 
-<p>Number of Schedule Query:</p>
+Number of Event Query: <%= numEvent[0].NUM %><br><br>
 
-<p>Average Budget on Event Query:</p>
+Most Popular Day From Search History: <%= popDay[0].Date %><br>
+Number of Search: <%= popDay[0].NUM %><br><br>
 
-<p>Average Budget on Schedule Query:</p>
+Average Budget on Event Query:<%= eventBudget[0].Budget%> <br><br>
 
-<p>Most Popular Day From Search History</p>
+Average Budget on Schedule Query:<%= schedBudget[0].Budget%><br><br>
