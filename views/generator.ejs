@@ -1,10 +1,10 @@
 <h1>CitySights</h1>
 <a href="/">Back to Homepage</a><br>
-<a href="/schedule">Find another scheule</a><br>
+<a href="/schedule">Find another schedule</a><br>
 <% if(query.startdate){ %>
-    These are schedules generated from <%= query.startdate %> to <%= query.enddate%>.
+    <h3>These are schedules generated from <%= query.startdate %> to <%= query.enddate%>.</h3>
 <% } else { %>
-    These are schedules generated from 2020-08-15 to 2020-08-17.
+    <h3>These are schedules generated from 2020-08-15 to 2020-08-17.</h3>
 <% } %>
 <h4>
     <span style="display: inline-block; width:400px;">Event Name</span>
