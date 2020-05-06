@@ -4,15 +4,14 @@
 <a href="/">Homepage</a><br><br>
 
 <h1>Scheduler</h1>
-<br>
 <form action="/schedule" method="post">
-    <!-- <h4>Start and End Date are required</h4> -->
     <br>
+    <h5>Note: Maximum Three Day Range</h5>
     <label for=""> Start Date:&nbsp &nbsp </label>
-        <input type="date" name="startdate" value="">
-    <br><br>
+        <input id="startdate" type="date" name="startdate">
+    <br>
     <label for=""> End Date:&nbsp &nbsp &nbsp </label>
-        <input type="date" name="enddate" value="">
+        <input type="date" name="enddate">
     <br><br>
     <label for="budget">Budget: &nbsp &nbsp &nbsp &nbsp</label>
     <input type="number" name="budget">
@@ -33,35 +32,8 @@
         <option value="Family">Family</option>
         <option value="Friends">Friends</option>
     </select>
+    <br>
     <!-- <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br> -->
-    <!-- <label for="">Interests</label>
-    <select id="Interests" name="Interests" multiple>
-        <option value="Music">Music</option>
-        <option value="Comedy">Comedy</option>
-        <option value="Sports">Sports</option>
-        <option value="Theatre">Theatre</option>
-    </select> -->
-    <!-- <input type="checkbox" id="Music" name="Music" value="Music">
-    <label for="Music"> Music </label><br>
-    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-    <label for="vehicle2"> I have a car</label><br>
-    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-    <label for="vehicle3"> I have a boat</label><br>
-    <input type="submit" value="Submit"> -->
-    <label for="">Group Type</label>
-    <select id="group_type" name="group_type">
-        <option value="Couple">Couple</option>
-        <option value="Family">Family</option>
-        <option value="Friends">Friends</option>
-        <option value="Classmates/Co-workers">Classmates/Co-workers</option>
-    </select>
-    <!-- <label for="">Group Size</label>
-    <select id="size" name="size">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="10">3-10</option>
-        <option value="50">10-50</option>
-        <option value="1000">50+</option>
-    </select><br><br> -->
+    <br>
     <button type="submit" name="button"class="btn btn-primary">Generate Schedule of Events</button>
 </form>

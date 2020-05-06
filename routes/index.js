@@ -30,8 +30,8 @@ router.get('/schedule', (req, res) => {
 });
 
 router.post('/schedule', (req, res) => {
-
-    // save the quiry to DB
+    console.log("SCHEDULE POST")
+    // save the query to DB
     console.log(req.body);
     temp = uuid.v4();
     var sql = "INSERT INTO `userpref` (group_type, queryID, budget,Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.interests+"')";
@@ -49,86 +49,115 @@ router.post('/schedule', (req, res) => {
 
     // ****************************************************************************
     //TBD(Sahil && Marek): new query && a new ejs file
+    var budget = req.body.budget
+    var group = req.body.group_type
+    var startdate = req.body.startdate
+    var enddate = req.body.enddate
+    if(startdate==''){
+        startdate = '2020-08-15'
+    }
+    if(enddate==''){
+      enddate = '2020-08-17'
+    }
+    start = new Date(startdate)
+    end = new Date(enddate)
+    var seconds = end-start
+    var days = 1 + (((seconds/1000)/60)/60)/24
+    console.log("Days:",days)
+    if(days > 3){
+        console.log("Too many days")
+    }
+    if(budget=='') budget = Number.MAX_SAFE_INTEGER
+    var interest = ['','','','','','']
+    if("interests" in req.body) {
+      interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
+      var i;
+      if(typeof req.body.interests === "string"){
+          interest[0] = req.body.interests
+      }
+      else{
+          for(i=0; i<req.body.interests.length; i++)
+          {
+            interest[i] = req.body.interests[i]
+          }
+      }
+    }
+    // Group types : Couple, Family, Friends
+    if(group!="none"){
+        switch(group){
+            case "Couple":
+                interest[5] = "Romantic"
+                break;
+            case "Family":
+                interest[5] = "Family"
+                break;
+            case "Friends":
+                interest[5] = "Friends"
+                break;
+            default:
+                break;
+        }
+    }
+    var day
+    start.setDate(start.getDate()+1)
+    for(day=0;day<days;day++){
+        var break_var
+        curr_date = start.toLocaleDateString()
+        var idx = curr_date.indexOf("/")
+        if(idx==1) curr_date = 0 + curr_date
+        idx = curr_date.indexOf("/",3)
+        if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
+        curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
+
+        var sql_1 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"'and e.startTime<'18:00:00'"
+        start.setDate(start.getDate()+1)
+        con.query(sql_1, function (err, result1) {
+          if (err) throw err;
+          //console.log(result1)
+          var i
+          for(i = result1.length - 1; i > 0; i--){
+              j = Math.floor(Math.random() * i)
+              tempx = result1[i]
+              result1[i] = result1[j]
+              result1[j] = tempx
+          }
+          var counter = 0
+          for(counter = 0; counter<result1.length; counter++) {
+            var price = result1[counter].Price
+            if(price>0 && price<=budget){
+                break;
+            }
+            if(counter==(result1.length-1)) {
+              price = -1
+            }
+          }
+          if(price!=-1){
+              budget -= price
+          }
+          if(result1.length==0){
+            price = -1
+          }
+          console.log(price)
+        })
+        // var sql_2 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+startdate+"' and e.startTime>='18:00:00'"
+        // con.query(sql_2, function (err, result2) {
+        // })
+    }
+    console.log("all good")
+    console.log("SCHEDULE POST END")
+    console.log("************************")
     res.render('admin');
-
-
-    // Event.find(
-    //     {},
-    //     (err, data) => {
-    //         if(err) console.log(err);
-    //         else res.render('schedule');
-    //     }
-    // );
 });
 
-router.get('/schedule/events', (req, res) => {
-    console.log(req.body)
-    temp = uuid.v4()
-    var sql = "INSERT INTO `userpref` (group_type, queryID, budget,Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.interests+"')";
-    con.query(sql,function (err, result) {
-            if (err) throw err;
-            else{
-                let new_sql = "INSERT INTO `schedpref`(queryID, startDate, endDate) VALUES('"+temp+"', '"+req.body.startDate+"','"+req.body.endDate+"')"
-                con.query(new_sql, (err, new_result)=>{
-                    // console.log(new_result);
-                });
-            }
-        });
-        var budget = req.body.budget
-        var startDate = req.body.startDate
-        var endDate = req.body.endDate
-        if(budget=='') budget = Number.MAX_SAFE_INTEGER
-        var interest = ['','','','','','']
-        // interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
-        if("interests" in req.body){
-          interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
-          var i;
-          if(typeof req.body.interests === "string"){
-              interest[0] = req.body.interests
-          }
-          else{
-              for(i=0; i<req.body.interests.length; i++)
-              {
-                interest[i] = req.body.interests[i]
-              }
-          }
-        }
-        // Group types : Couple, Family, Friends
-        if(group!="none"){
-            switch(group){
-                case "Couple":
-                    interest[5] = "Romantic"
-                    break;
-                case "Family":
-                    interest[5] = "Family"
-                    break;
-                case "Friends":
-                    interest[5] = "Friends"
-                    break;
-                default:
-                    break;
-            }
-        }
-var sql = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type>= '"+startDate+"' and e.date_type <= '"+endDate+"'"
-});
+
 
 router.get('/events', (req, res) => {
     res.render('userEvents')
-    // Event.find(
-    //     {},
-    //     (err, data) => {
-    //         if(err) console.log(err);
-    //         else{
-    //             res.render('userEvents',{ events : data })
-    //         }
-    //     }
-    // );
 });
 
 router.post('/events', (req, res) => {
     console.log(req.body);
-    // TBD - Yan: add query to DB
-    // let temp = uuid.v4();
+    // Add query to DB
     temp = uuid.v4();
     var sql = "INSERT INTO `userpref` (group_type, queryID, budget,Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.interests+"')";
     con.query(sql,function (err, result) {
@@ -142,15 +171,13 @@ router.post('/events', (req, res) => {
         }
     });
 
-
-    //TBD - Sahil and Marek:
+    //Singe event functionality
     //-------------------------------------------
     var date = req.body.date
     var group = req.body.group_type
     var size = req.body.size
     var budget = req.body.budget
     if(budget=='') budget = Number.MAX_SAFE_INTEGER
-
     var start = req.body.startTime
     var end = req.body.endTime
 
