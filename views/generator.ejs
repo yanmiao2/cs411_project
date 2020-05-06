@@ -1,0 +1,17 @@
+<h1>CitySights</h1>
+<a href="/">Back to Homebage</a><br>
+
+<% let count = 0; let flag = true%>
+    <% for(let j = 0; j<day3.length && flag == true;j++){%>
+        <% for(let k = 0; k<day2.length && flag == true;k++){%>
+            <% for(let m = 0; m<day1.length && flag == true;m++){%>
+                <li> <h3>Schedule <%= count+1 %></h3> </li>
+                <p>Day1: <%= day1[m].Name %></p>
+                <p>Day2: <%= day2[k].Name %></p>
+                <p>Day3: <%= day3[j].Name %></p>
+                <br>
+                <% count++ %>
+                <% if(count>=10) {flag = false; break;}%>
+            <% }%>
+        <% }%>
+    <% }%>

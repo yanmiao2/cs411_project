@@ -54,10 +54,13 @@ router.post('/schedule', (req, res) => {
     var startdate = req.body.startdate
     var enddate = req.body.enddate
     if(startdate==''){
-        startdate = '2020-08-15'
+        // startdate = '2020-08-15'
+        startdate = '2020-06-25'
     }
     if(enddate==''){
-      enddate = '2020-08-17'
+      // enddate = '2020-08-17'
+      startdate = '2020-06-27'
+
     }
     start = new Date(startdate)
     end = new Date(enddate)
@@ -100,27 +103,58 @@ router.post('/schedule', (req, res) => {
     }
     var day
     start.setDate(start.getDate()+1)
-    for(day=0;day<days;day++){
-        var break_var
+    let finalResult = [];
+    // for(day=0;day<days;day++){
+
         curr_date = start.toLocaleDateString()
         var idx = curr_date.indexOf("/")
         if(idx==1) curr_date = 0 + curr_date
         idx = curr_date.indexOf("/",3)
         if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
         curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
+        console.log(curr_date);
 
-        var sql_1 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"'and e.startTime<'18:00:00'"
-        start.setDate(start.getDate()+1)
+        var sql_1 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"'/3 ORDER BY e.StartTime ASC"
+        // and e.startTime<'18:00:00
         con.query(sql_1, function (err, result1) {
           if (err) throw err;
           //console.log(result1)
-          var i
-          for(i = result1.length - 1; i > 0; i--){
-              j = Math.floor(Math.random() * i)
-              tempx = result1[i]
-              result1[i] = result1[j]
-              result1[j] = tempx
-          }
+          // var i
+          // for(i = result1.length - 1; i > 0; i--){
+          //     j = Math.floor(Math.random() * i)
+          //     tempx = result1[i]
+          //     result1[i] = result1[j]
+          //     result1[j] = tempx
+          // }
+          start.setDate(start.getDate()+1)
+          curr_date = start.toLocaleDateString()
+          idx = curr_date.indexOf("/")
+          if(idx==1) curr_date = 0 + curr_date
+          idx = curr_date.indexOf("/",3)
+          if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
+          curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
+          console.log(curr_date);
+          var sql_2 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"'/3 ORDER BY e.StartTime ASC"
+          con.query(sql_2, function (err, result2) {
+              start.setDate(start.getDate()+1)
+              curr_date = start.toLocaleDateString()
+              idx = curr_date.indexOf("/")
+              if(idx==1) curr_date = 0 + curr_date
+              idx = curr_date.indexOf("/",3)
+              if(idx==4) curr_date = curr_date.slice(0,3) + '0' + curr_date.slice(3,0)
+              curr_date = curr_date.slice(6,10) + "-" + curr_date.slice(0,2) + "-" + curr_date.slice(3,5)
+              console.log(curr_date);
+              var sql_3 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+curr_date+"' and e.price <= '"+budget+"'/3 ORDER BY e.StartTime ASC"
+              con.query(sql_3, function (err, result3) {
+                  console.log("result1 is ", result1);
+                  console.log("result2 is ", result2);
+                  console.log("result3 is ", result3);
+                  res.render('generator', {day1:result1,day2:result2, day3:result3});
+              });
+          })
+
+          // Budget FIX ? Sahil & Marek
+          //***************************************
           var counter = 0
           for(counter = 0; counter<result1.length; counter++) {
             var price = result1[counter].Price
@@ -137,16 +171,21 @@ router.post('/schedule', (req, res) => {
           if(result1.length==0){
             price = -1
           }
-          console.log(price)
+          // finalResult.push(result1)
+          // console.log("THE FINAL result is ", finalResult);
+          // console.log("THE FINAL length is ", finalResult.length);
+          // console.log("first object is",finalResult[0] );
+          // console.log("final result is ", finalResult);
+          // console.log("type result1 is ", typeof(result1));
         })
         // var sql_2 = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type = '"+startdate+"' and e.startTime>='18:00:00'"
         // con.query(sql_2, function (err, result2) {
         // })
-    }
+    // }
     console.log("all good")
     console.log("SCHEDULE POST END")
     console.log("************************")
-    res.render('admin');
+
 });
 
 
