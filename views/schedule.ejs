@@ -1,18 +1,23 @@
 <h1>Welcome to CitySights</h1>
+<h3>Contributors: Yan, Sahil, Marek</h3>
 <br>
-<h3>Contributor: Yan, Sahil, Marek</h3>
 <a href="/">Homepage</a><br><br>
 
-<h1>This is for Schedule</h1>
+<h1>Scheduler</h1>
+<br>
 <form action="/schedule" method="post">
-    <h4>Start/End Date, Duration and Budget are required for both search functions</h4>
-
-    <label for="">Start Date</label>
-        <input type="date" name="startDate" value="">
-
-    <label for="">End Date</label>
-        <input type="date" name="endDate" value="">
-    <label for="">Interests</label>
+    <!-- <h4>Start and End Date are required</h4> -->
+    <br>
+    <label for=""> Start Date:&nbsp &nbsp </label>
+        <input type="date" name="startdate" value="">
+    <br><br>
+    <label for=""> End Date:&nbsp &nbsp &nbsp </label>
+        <input type="date" name="enddate" value="">
+    <br><br>
+    <label for="budget">Budget: &nbsp &nbsp &nbsp &nbsp</label>
+    <input type="number" name="budget">
+    <br><br>
+    <label for="">Interests: &nbsp &nbsp &nbsp</label>
     <select id="interests" name="interests" multiple>
         <option value="Theatre">Theatre</option>
         <option value="Music">Music</option>
@@ -20,14 +25,15 @@
         <option value="Comedy">Comedy</option>
         <option value="Religion">Religion</option>
     </select>
-    <label for="">Budget</label>
-    <select id="budget" name="budget">
-        <option value="0">Free</option>
-        <option value="1">$1-$50</option>
-        <option value="2">Over $50</option>
-    </select><br><br>
+    <br><br>
+    <label for="">Group Type: &nbsp</label>
+    <select id="group_type" name="group_type">
+      <option value="none"></option>
+        <option value="Couple">Couple</option>
+        <option value="Family">Family</option>
+        <option value="Friends">Friends</option>
+    </select>
     <!-- <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br> -->
-    <h4>The following are optional but recommended</h4>
     <!-- <label for="">Interests</label>
     <select id="Interests" name="Interests" multiple>
         <option value="Music">Music</option>

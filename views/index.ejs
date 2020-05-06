@@ -6,20 +6,12 @@
 <a href="/schedule">Schedule Search</a><br><br>
 <h1>Find Events</h1>
 <form action="/events" method="post">
-    <!-- <h4>Date and budget are required for both search functions</h4> -->
     <br>
     <label for="">Date:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
         <input type="date" name="date" value="">
     <br><br>
-    <!-- <label for="">Budget</label> -->
-    <!-- <select id="budget" name="budget">
-        <option value="0">Free</option>
-        <option value="1">$1-$50</option>
-        <option value="2">Over $50</option>
-    </select><br><br> -->
     <label for="budget">Budget: &nbsp &nbsp &nbsp &nbsp</label>
     <input type="number" name="budget">
-    <!-- <h4>The following are optional but recommended</h4> -->
     <br><br>
     <label for="">Interests: &nbsp &nbsp &nbsp</label>
     <select id="interests" name="interests" multiple>
@@ -36,7 +28,6 @@
         <option value="Couple">Couple</option>
         <option value="Family">Family</option>
         <option value="Friends">Friends</option>
-        <!-- <option value="Classmates/Co-workers">Professional</option> -->
     </select>
     <br><br>
     <label for="">Time Range Start: &nbsp </label>

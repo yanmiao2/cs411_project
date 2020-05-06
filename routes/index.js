@@ -62,16 +62,54 @@ router.post('/schedule', (req, res) => {
 });
 
 router.get('/schedule/events', (req, res) => {
-    // var start_date = "2020-08-15"
-    // var end_date = "2020-09-15"
-    // var budget = 100
-    // con.query("select * from `Updated Events` where date>" + "'" + start_date + "'" + " and date<" + "'" + end_date + "'",function (err, result) {
-    //   if (err) throw err;
-    //   else{
-    //       console.log("find all events");
-    //       res.render('adminEvents',{ events : result })
-    //   }
-    // });
+    console.log(req.body)
+    temp = uuid.v4()
+    var sql = "INSERT INTO `userpref` (group_type, queryID, budget,Interests) VALUES ('"+req.body.group_type+"','"+temp+"','"+req.body.budget+"', '"+req.body.interests+"')";
+    con.query(sql,function (err, result) {
+            if (err) throw err;
+            else{
+                let new_sql = "INSERT INTO `schedpref`(queryID, startDate, endDate) VALUES('"+temp+"', '"+req.body.startDate+"','"+req.body.endDate+"')"
+                con.query(new_sql, (err, new_result)=>{
+                    // console.log(new_result);
+                });
+            }
+        });
+        var budget = req.body.budget
+        var startDate = req.body.startDate
+        var endDate = req.body.endDate
+        if(budget=='') budget = Number.MAX_SAFE_INTEGER
+        var interest = ['','','','','','']
+        // interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
+        if("interests" in req.body){
+          interest = ['DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH','DONTMATCH'];
+          var i;
+          if(typeof req.body.interests === "string"){
+              interest[0] = req.body.interests
+          }
+          else{
+              for(i=0; i<req.body.interests.length; i++)
+              {
+                interest[i] = req.body.interests[i]
+              }
+          }
+        }
+        // Group types : Couple, Family, Friends
+        if(group!="none"){
+            switch(group){
+                case "Couple":
+                    interest[5] = "Romantic"
+                    break;
+                case "Family":
+                    interest[5] = "Family"
+                    break;
+                case "Friends":
+                    interest[5] = "Friends"
+                    break;
+                default:
+                    break;
+            }
+        }
+var sql = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.date_type>= '"+startDate+"' and e.date_type <= '"+endDate+"'"
 });
 
 router.get('/events', (req, res) => {
@@ -149,10 +187,10 @@ router.post('/events', (req, res) => {
     }
 
     if(date == ""){
-        var sql = "select * from events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.start_time>= '"+start+"' and e.end_time <= '"+end+"' "
+        var sql = "select * from Events e where e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.startTime>= '"+start+"' and e.startTime <= '"+end+"' "
     }
     else{
-        var sql = "select * from events e where e.date_type = '"+date+"' and e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.start_time>= '"+start+"' and e.end_time <= '"+end+"'  "
+        var sql = "select * from Events e where e.date_type = '"+date+"' and e.price <= '"+budget+"' and (e.type LIKE '%"+interest[0]+"%' or e.type LIKE '%"+interest[1]+"%' or e.type LIKE '%"+interest[2]+"%' or e.type LIKE '%"+interest[3]+"%' or e.type LIKE '%"+interest[4]+"%' or e.type LIKE '%"+interest[5]+"%') and e.StartTime>= '"+start+"' and e.StartTime <= '"+end+"'"
     }
 
     con.query(sql, function (err, result) {
@@ -243,8 +281,8 @@ router.get('/admin/add', (req, res) => {
 router.post('/admin/add', (req, res) => {
     const {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}= req.body;
     // const newEvent = {event_name,web_link,ticket_price,start_time,location,event_date,description,event_type}
-    let temp = uuid.v4();
-    var sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES ('"+temp+"','"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', '"+location+"', '"+event_date+"', '"+description+"', '"+event_type+"')";
+    // let temp = uuid.v4();
+    var sql = "INSERT INTO `Events` (Name, URL, Price, StartTime, Location, Date, Description, Type) VALUES ('"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', '"+location+"', '"+event_date+"', '"+description+"', '"+event_type+"')";
       con.query(sql, function (err, result) {
         if (err) throw err;
         console.log(result);
@@ -366,27 +404,33 @@ router.post("/admin/delete",(req, res) => {
 
 //This is to add new UUID
 
-router.get("/test",(req,res)=>{
-    // let temp = uuid.v4();
-    // let sql = "UPDATE `uuid_test` SET `UUID` = '"+temp+"' WHERE `uuid_test`.`UUID` = 'null1';"
-    var sql = "select * from `Events`";
-    con.query(sql,function (err, result) {
-      if (err) throw err;
-      else{
-          console.log(result.length);
-          for(let i =0; i<result.length;i++){
-              // var sql = "INSERT INTO `Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
-              let temp = uuid.v4();
-              new_sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Date_type, Description, Type) VALUES('"+temp+"','"+result[i].Name+"','"+result[i].URL+"', '"+result[i].Price+"', '"+result[i].StartTime+"', '"+result[i].Location+"', '"+result[i].Date+"', '"+result[i].Date_type+"', '"+result[i].Description+"', '"+result[i].Type+"')";
-              con.query(new_sql,(err,new_result)=>{
-                  console.log("insert 1");
-                  console.log(new_result);
-              })
-          }
-          res.render('admin');
-      }
-    });
-});
+// router.get("/test",(req,res)=>{
+//     // let temp = uuid.v4();
+//     // let sql = "UPDATE `uuid_test` SET `UUID` = '"+temp+"' WHERE `uuid_test`.`UUID` = 'null1';"
+//     // var sql = "select * from `Events`";
+//     // con.query(sql,function (err, result) {
+//     //   if (err) throw err;
+//     //   else{
+//     //       console.log(result.length);
+//     //       for(let i =0; i<result.length;i++){
+//     //           // var sql = "INSERT INTO `Events` (maxPrice, Name, URL, minPrice, startTime, Location, Date, Description, Type) VALUES ('0', '"+event_name+"','"+web_link+"', '"+ticket_price+"', '"+start_time+"', 'Chicago', '"+event_date+"','"+description+"','"+event_type+"')";
+//     //           let temp = uuid.v4();
+//     //           new_sql = "INSERT INTO `Events` (EventID, Name, URL, Price, StartTime, Location, Date, Date_type, Description, Type) VALUES('"+temp+"','"+result[i].Name+"','url', '"+result[i].Price+"', '"+result[i].StartTime+"', '"+result[i].Location+"', '"+result[i].Date+"', '"+result[i].Date_type+"', '"+result[i].Description+"', '"+result[i].Type+"')";
+//     //           con.query(new_sql,(err,new_result)=>{
+//     //               if (err) throw err;
+//     //               // console.log("insert 1");
+//     //               // console.log(new_result);
+//     //           })
+//     //       }
+//     //       res.render('admin');
+//     //   }
+//     // });
+//     var sql = "alter table Events add column `EventID` int(10) unsigned primary KEY AUTO_INCREMENT;"
+//     con.query(sql,function (err, result) {
+//       if (err) throw err;
+//       console.log(result)
+//   });
+// });
 
 // add update delete
 module.exports = router;
