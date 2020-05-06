@@ -38,9 +38,10 @@ router.post('/schedule', (req, res) => {
     con.query(sql,function (err, result) {
         if (err) throw err;
         else{
-            let new_sql = "INSERT INTO `schedPref`(queryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
+            let new_sql = "INSERT INTO `schedpref`(queryID, endDate, startDate) VALUES('"+temp+"','"+req.body.endDate+"','"+req.body.startDate+"')"
             con.query(new_sql, (err, new_result)=>{
                 // console.log(new_result);
+                if(err) throw err
             });
             console.log("find all events");
         }
