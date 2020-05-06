@@ -1,16 +1,14 @@
 <h1>CitySights</h1>
+<br>
 <a href="/">Back to Homepage</a><br>
 <a href="/schedule">Find another schedule</a><br>
+<br>
 <% if(query.startdate){ %>
-    <h3>These are schedules generated from <%= query.startdate %> to <%= query.enddate%>.</h3>
+    These are schedules generated from <%= query.startdate %> to <%= query.enddate%>.
 <% } else { %>
-    <h3>These are schedules generated from 2020-08-15 to 2020-08-17.</h3>
+    These are schedules generated from 2020-08-15 to 2020-08-17.
 <% } %>
-<h4>
-    <span style="display: inline-block; width:400px;">Event Name</span>
-    <span style="display: inline-block; width:400px;">Event Time</span>
-    <span style="display: inline-block; width:100px;">Price</span>
-</h4>
+<br>
 <% let count = 0; let flag = true%>
     <%var day1_len = ((day1a.length > day1b.length) ? day1a.length : day1b.length)
     var day2_len = ((day2a.length > day2b.length) ? day2a.length : day2b.length)
@@ -23,8 +21,14 @@
                 <h5>Day 1:</h5>
                 <% if(m < day1a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day1a[m].Name %></span>
-                    <span style="display: inline-block; width:400px;"><%= day1a[m].StartTime %></span>
-                    <span style="display: inline-block; width:100px;"><%= day1a[m].Price %></span>
+                    <span style="display: inline-block; width:300px;"><%= day1a[m].StartTime %></span>
+                    <% if(day1a[m].Price==0){ %>
+                        <span style="display: inline-block; width:300px;">Free</span>
+                    <% } else if(day1a[m].Price==-1){ %>
+                        <span style="display: inline-block; width:300px;">Price not available</span>
+                    <% } else { %>
+                        <span style="display: inline-block; width:100px;"><%= "$" + day1a[m].Price %></span>
+                    <% } %>
                     <form action="/schedule/details" method="post" style="float: right;display: inline-block;">
                                 <input type="hidden" name="budget" value="<%= query.budget%>">
                                 <input type="hidden" name="group_type" value="<%= query.group_type%>">
@@ -39,8 +43,14 @@
                 <br><br>
                 <% if(m < day1b.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day1b[m].Name %></span>
-                    <span style="display: inline-block; width:400px;"><%= day1b[m].StartTime %></span>
-                    <span style="display: inline-block; width:100px;"><%= day1b[m].Price %></span>
+                    <span style="display: inline-block; width:300px;"><%= day1b[m].StartTime %></span>
+                    <% if(day1b[m].Price==0){ %>
+                        <span style="display: inline-block; width:300px;">Free</span>
+                    <% } else if(day1b[m].Price==-1){ %>
+                        <span style="display: inline-block; width:300px;">Price not available</span>
+                    <% } else { %>
+                        <span style="display: inline-block; width:100px;"><%= "$" + day1b[m].Price %></span>
+                    <% } %>
                     <form action="/schedule/details" method="post" style="float: right;display: inline-block;">
                         <input type="hidden" name="budget" value="<%= query.budget%>">
                         <input type="hidden" name="group_type" value="<%= query.group_type%>">
@@ -56,8 +66,14 @@
                 <h5>Day 2:</h5>
                 <% if(k < day2a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day2a[k].Name %></span>
-                    <span style="display: inline-block; width:400px;"><%= day2a[k].StartTime %></span>
-                    <span style="display: inline-block; width:100px;"><%= day2a[k].Price %></span>
+                    <span style="display: inline-block; width:300px;"><%= day2a[k].StartTime %></span>
+                    <% if(day2a[k].Price==0){ %>
+                        <span style="display: inline-block; width:300px;">Free</span>
+                    <% } else if(day2a[k].Price==-1){ %>
+                        <span style="display: inline-block; width:300px;">Price not available</span>
+                    <% } else { %>
+                        <span style="display: inline-block; width:100px;"><%= "$" + day2a[k].Price %></span>
+                    <% } %>
                     <form action="/schedule/details" method="post" style="float: right;display: inline-block;">
                         <input type="hidden" name="budget" value="<%= query.budget%>">
                         <input type="hidden" name="group_type" value="<%= query.group_type%>">
@@ -71,8 +87,14 @@
                 <% } %>
                 <% if(k < day2b.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day2b[k].Name %></span>
-                    <span style="display: inline-block; width:400px;"><%= day2b[k].StartTime %></span>
-                    <span style="display: inline-block; width:100px;"><%= day2b[k].Price %></span>
+                    <span style="display: inline-block; width:300px;"><%= day2b[k].StartTime %></span>
+                    <% if(day2b[k].Price==0){ %>
+                        <span style="display: inline-block; width:300px;">Free</span>
+                    <% } else if(day2b[k].Price==-1){ %>
+                        <span style="display: inline-block; width:300px;">Price not available</span>
+                    <% } else { %>
+                        <span style="display: inline-block; width:100px;"><%= "$" + day2b[k].Price %></span>
+                    <% } %>
                     <form action="/schedule/details" method="post" style="float: right;display: inline-block;">
                         <input type="hidden" name="budget" value="<%= query.budget%>">
                         <input type="hidden" name="group_type" value="<%= query.group_type%>">
@@ -88,8 +110,14 @@
                 <h5>Day 3:</h5>
                 <% if(j < day3a.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day3a[j].Name %></span>
-                    <span style="display: inline-block; width:400px;"><%= day3a[j].StartTime %></span>
-                    <span style="display: inline-block; width:100px;"><%= day3a[j].Price %></span>
+                    <span style="display: inline-block; width:300px;"><%= day3a[j].StartTime %></span>
+                    <% if(day3a[j].Price==0){ %>
+                        <span style="display: inline-block; width:300px;">Free</span>
+                    <% } else if(day3a[j].Price==-1){ %>
+                        <span style="display: inline-block; width:300px;">Price not available</span>
+                    <% } else { %>
+                        <span style="display: inline-block; width:100px;"><%= "$" + day3a[j].Price %></span>
+                    <% } %>
                     <form action="/schedule/details" method="post" style="float: right;display: inline-block;">
                         <input type="hidden" name="budget" value="<%= query.budget%>">
                         <input type="hidden" name="group_type" value="<%= query.group_type%>">
@@ -104,8 +132,14 @@
                 <br>
                 <% if(j < day3b.length){ %>
                     <span style="display: inline-block; width:400px;"><%= day3b[j].Name %></span>
-                    <span style="display: inline-block; width:400px;"><%= day3b[j].StartTime %></span>
-                    <span style="display: inline-block; width:100px;"><%= day3b[j].Price %></span>
+                    <span style="display: inline-block; width:300px;"><%= day3b[j].StartTime %></span>
+                    <% if(day3b[j].Price==0){ %>
+                        <span style="display: inline-block; width:300px;">Free</span>
+                    <% } else if(day3b[j].Price==-1){ %>
+                        <span style="display: inline-block; width:300px;">Price not available</span>
+                    <% } else { %>
+                        <span style="display: inline-block; width:100px;"><%= "$" + day3b[j].Price %></span>
+                    <% } %>
                     <form action="/schedule/details" method="post" style="float: right;display: inline-block;">
                         <input type="hidden" name="budget" value="<%= query.budget%>">
                         <input type="hidden" name="group_type" value="<%= query.group_type%>">
