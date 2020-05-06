@@ -4,9 +4,11 @@
 <!-- <a href="/events">Back</a> -->
 <form action="/events" method="post" style="float: left;display: inline-block;">
     <input type="hidden" name="date" value="<%= query.date%>">
-    <input type="hidden" name="group" value="<%= query.group%>">
+    <input type="hidden" name="group_type" value="<%= query.group_type%>">
     <input type="hidden" name="size" value="<%= query.size%>">
     <input type="hidden" name="budget" value="<%= query.budget%>">
+    <input type="hidden" name="startTime" value="<%= query.startTime%>">
+    <input type="hidden" name="endTime" value="<%= query.endTime%>">
     <button type="Submit" class="btn btn-secondary">Back</button>
 </form><br><br>
 <h3>Event Name: </h3>
