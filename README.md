@@ -3,7 +3,7 @@ CitySights provides a personalized trip planning service within the city of Chic
 
 
 # How to deploy to locally
-  Download NodeJS;
+  Download NodeJS
   In your terminal, type "npm run dev";
   Then go to "localhost:8000" in your browser;
   
