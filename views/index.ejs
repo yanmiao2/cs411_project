@@ -1,43 +1,65 @@
-<h1>Welcome to CitySights</h1>
+<h1 style="color:white">Welcome to CitySights</h1>
+<h3 style="color:white">Contributors: Yan, Sahil, Marek</h3>
 <br>
-<h3>Contributor: Yan, Sahil, Marek</h3>
-<a href="/admin">Admin(For temporary dev use)</a><br><br>
-<h4>See below link for schedule</h4>
-<a href="/schedule">Schedule Search</a><br><br>
-<h1>This is for single event</h1>
+<h3 style="color:white"><a href="/admin">Admin Access</a></h3>
+<style>
+body {
+  background-image: url('https://github.com/yanmiao2/cs411_project/blob/Working_copy/willis-tower-chicago-night-skyscrapers-cityscape.jpg?raw=true');
+  background-repeat:no-repeat;
+  background-position: center;
+  background-size: 100%;
+
+}
+</style>
+<!-- <h4>See below link for schedule</h4> -->
+<h3 style="color:white"><a href="/schedule">Schedule Search</a></h3>
+<br>
+<h1 style="color:white">Find Events</h1>
 <form action="/events" method="post">
-    <h4>Date and budget are required for both search functions</h4>
-    <label for="">Date</label>
+    <br>
+    <label for="" style="color:white">Date:&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</label>
         <input type="date" name="date" value="">
-    <label for="">Budget</label>
-    <select id="budget" name="budget">
-        <option value="0">Free</option>
-        <option value="1">$1-$50</option>
-        <option value="2">Over $50</option>
-    </select><br><br>
-    <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br>
-    <h4>The following are optional but recommended</h4>
-    <label for="">Time</label>
-    <select id="time" name="time">
-        <option value="Morning">8am-12pm</option>
-        <option value="Afternoon">12pm-5pm</option>
-        <option value="Evening">5pm-9pm</option>
-        <option value="Night">9pm-Midnight</option>
+    <br><br>
+    <label for="budget" style="color:white"> Budget: &nbsp &nbsp &nbsp &nbsp</label>
+    <input type="number" name="budget">
+    <br><br>
+    <label for="" style="color:white">Interests: &nbsp &nbsp &nbsp</label>
+    <select id="interests" name="interests" multiple>
+        <option value="Theatre">Theatre</option>
+        <option value="Music">Music</option>
+        <option value="Sports">Sports</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Religion">Religion</option>
     </select>
-    <label for="">Group Type</label>
+    <br><br>
+    <label for="" style="color:white">Group Type: &nbsp</label>
     <select id="group_type" name="group_type">
+      <option value="none"></option>
         <option value="Couple">Couple</option>
         <option value="Family">Family</option>
         <option value="Friends">Friends</option>
-        <option value="Classmates/Co-workers">Classmates/Co-workers</option>
     </select>
-    <label for="">Group Size</label>
-    <select id="size" name="size">
+    <br><br>
+    <label for="" style="color:white">Time Range Start: &nbsp </label>
+    <input type="time" id="startTime"
+       name="startTime" value = "00:00"
+       min="00:00" max="23:00">
+    <br>
+    <label for="" style="color:white">Time Range End: &nbsp &nbsp </label>
+   <input type="time" id="endTime"
+      name="endTime" value = "23:59"
+      min="01:00" max="23:59">
+    <br><br>
+    <button type="submit" name="button"class="btn btn-success" style="color:white">Find Single Event</button><br><br><br>
+    <!-- </select>
+    <label for="">Group Size</label> -->
+    <!-- <select id="size" name="size">
+
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="10">3-10</option>
         <option value="50">10-50</option>
         <option value="1000">50+</option>
-    </select><br><br>
+    </select><br><br> -->
     <!-- <button type="button" name="button"class="btn btn-primary">Generate Schedule of Events</button> -->
 </form>

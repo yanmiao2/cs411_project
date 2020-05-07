@@ -1,6 +1,7 @@
 <h1>Welcome Admin</h1>
 <a href="/">Back</a><br>
 <a href="/admin/add">Manually add event</a>(Not recommended)<br><br>
+<a href="/admin/analysis">Data analysis</a>
 <h1>This is from MySQL database</h1><br>
 <h4>
     <span style="display: inline-block; width:550px;padding-left:30px;">Event Name</span>
@@ -11,16 +12,18 @@
 <% for(i=0;i<events.length;i++){ %>
     <li>
         <form action="/admin/events" method="post" style="float: right;display: inline-block;">
-                    <input type="hidden" name="eventID" value="<%= events[i].id%>">
+                    <input type="hidden" name="eventID" value="<%= events[i].EventID%>">
                     <button type="Submit" class="btn btn-info">Details</button>
         </form>
         <div class="lead mb-3">
             <span style="display: inline-block; width:515px;"><%= events[i].Name %></span>
             <span style="display: inline-block; width:200px;"><%= events[i].Date %></span>
-            <% if(events[i].minPrice<=0){ %>
+            <% if(events[i].Price==0){ %>
                 <span style="display: inline-block; width:200px;">Free</span>
+            <% } else if(events[i].Price==-1){ %>
+                <span style="display: inline-block; width:200px;">Price not available</span>
             <% } else { %>
-                <span style="display: inline-block; width:200px;">$<%= events[i].minPrice %></span>
+                <span style="display: inline-block; width:200px;">$<%= events[i].Price %></span>
             <% } %>
         </div>
     </li>

@@ -1,48 +1,59 @@
-<h1>Welcome to CitySights</h1>
+<h1 style="color:white">Welcome to CitySights</h1>
+<h3 style="color:white">Contributors: Yan, Sahil, Marek</h3>
+<style>
+body {
+  background-image: url('https://github.com/yanmiao2/cs411_project/blob/Working_copy/willis-tower-chicago-night-skyscrapers-cityscape.jpg?raw=true');
+  background-repeat:no-repeat;
+  background-position: center;
+  background-size: 100%;
+
+}
+</style>
 <br>
-<h3>Contributor: Yan, Sahil, Marek</h3>
 <a href="/">Homepage</a><br><br>
 
-<h1>This is for Schedule</h1>
+<h1 style="color:white">Scheduler</h1>
 <form action="/schedule" method="post">
-    <h4>Start/End Date, Duration and Budget are required for both search functions</h4>
-
-    <label for="">Start Date</label>
-        <input type="date" name="startDate" value="">
-
-    <label for="">End Date</label>
-        <input type="date" name="endDate" value="">
-
-    <label for="">Budget</label>
-    <select id="budget" name="budget">
-        <option value="0">Free</option>
-        <option value="1">$1-$50</option>
-        <option value="2">Over $50</option>
-    </select><br><br>
-    <!-- <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br> -->
-    <h4>The following are optional but recommended</h4>
-    <label for="">Time</label>
-    <select id="time" name="time">
-        <option value="Morning">8am-12pm</option>
-        <option value="Afternoon">12pm-5pm</option>
-        <option value="Evening">5pm-9pm</option>
-        <option value="Night">9pm-Midnight</option>
+    <br>
+    <h5 style="color:white">Note: Maximum Three Day Range</h5>
+    <label for="" style="color:white">Start Date: &nbsp</label>
+        <input type="date" name="startdate" id = "startdate" >
+<br>
+    <label for="" style="color:white">End Date: &nbsp &nbsp</label>
+        <input type="date" name="enddate" id ="enddate" onblur ="datelogic()">    <br><br>
+    <label for="budget" style="color:white">Budget per Event: &nbsp </label>
+    <input type="number" name="budget">
+    <br><br>
+    <label for="" style="color:white">Interests: &nbsp &nbsp &nbsp</label>
+    <select id="interests" name="interests" multiple>
+        <option value="Theatre">Theatre</option>
+        <option value="Music">Music</option>
+        <option value="Sports">Sports</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Religion">Religion</option>
     </select>
-    <label for="">Group Type</label>
+    <br><br>
+    <label for="" style="color:white">Group Type: &nbsp</label>
     <select id="group_type" name="group_type">
+      <option value="none"></option>
         <option value="Couple">Couple</option>
         <option value="Family">Family</option>
         <option value="Friends">Friends</option>
-        <option value="Classmates/Co-workers">Classmates/Co-workers</option>
     </select>
-    <label for="">Group Size</label>
-    <select id="size" name="size">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="10">3-10</option>
-        <option value="50">10-50</option>
-        <option value="1000">50+</option>
-    </select><br><br>
-    <button type="button" name="button"class="btn btn-primary">Generate Schedule of Events</button>
-    <-- Generate schedule function is still under development
+    <br>
+    <!-- <button type="submit" name="button"class="btn btn-success">Find Single Event</button><br><br> -->
+    <br>
+    <button type="submit" name="button"class="btn btn-primary">Generate Schedule of Events</button>
+    <script>
+      function datelogic() {
+      var x = document.getElementById("startdate").value;
+      var start = new Date(x);
+      var y = document.getElementById("enddate").value;
+      var end = new Date(y);
+      var days = (end-start)/(1000*60*60*24)
+      if(days>2 || days<0){
+      alert("Invalid input for date. Must be a three day range");
+    }
+}
+</script>
 </form>

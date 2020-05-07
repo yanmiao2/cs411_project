@@ -21,6 +21,7 @@
     "express-session": "^1.17.0",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.6",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "uuid": "^8.0.0"
   }
 }

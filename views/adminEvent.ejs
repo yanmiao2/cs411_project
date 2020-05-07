@@ -4,31 +4,29 @@
 <a href="/">Back</a>
 <form action="/admin/update" method="post">
     <h3>Event Name: </h3>
-        <input type="text" name="event_name" value="<%= event[0].event_name %>">
+        <input type="text" name="event_name" value="<%= event[0].Name %>">
     <h3>Date:</h3>
-        <input type="date" name="event_date" value="<%= event[0].event_date %>">
+        <input type="text" name="event_date" value="<%= event[0].Date %>">
     <h3>Price(USD): </h3>
-        <input type="text" name="ticket_price" value="<%= event[0].ticket_price %>">
-    <h3>Event Size: </h3>
-        <input type="text" name="event_size" value="<%= event[0].event_size %>">
+        <input type="text" name="ticket_price" value="<%= event[0].Price %>">
     <h3>Start Time: </h3>
-        <input type="text" name="start_time" value="<%= event[0].start_time %>">
+        <input type="text" name="start_time" value="<%= event[0].StartTime %>">
     <h3>Location: </h3>
-        <input type="text" name="location" value="<%= event[0].location %>">
+        <input type="text" name="location" value="<%= event[0].Location %>">
     <h3>Web Link: </h3>
-        <input type="text" name="web_link" value="<%= event[0].web_link %>">
+        <input type="text" name="web_link" value="<%= event[0].URL %>">
     <h3>Description: </h3>
-        <input type="text" name="description" value="<%= event[0].description %>">
+        <input type="text" name="description" value="<%= event[0].Description %>">
     <h3>Event Type: </h3>
-    <input type="text" name="event_type" value="<%= event[0].event_type %>">
+    <input type="text" name="event_type" value="<%= event[0].Type %>">
 
-    <input type="hidden" name="eventID" value="<%= event[0].id%>">
+    <input type="hidden" name="eventID" value="<%= event[0].EventID%>">
     <br><br>
     <button type="submit" name="button">Update</button>
 </form>
 
 <form action="/admin/delete" method="post">
-    <input type="hidden" name="eventID" value="<%= event[0].id%>">
+    <input type="hidden" name="eventID" value="<%= event[0].EventID%>">
     <br>
     <button type="submit" name="button">Delete</button>
 </form>
