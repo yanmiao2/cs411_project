@@ -9,3 +9,6 @@ CitySights provides a personalized trip planning service within the city of Chic
   
 # Deploy on Heroku
   https://secure-refuge-78564.herokuapp.com/
+  
+# Demo video on Youtube
+https://www.youtube.com/watch?v=cde-DQTv2sQ
