@@ -82,19 +82,6 @@ for page_num in range(0, 50):
         event["Type"] = event_type
         data.append(event)
         time.sleep(0.01)
-        # print page_list[i].keys()
-
-'''
-url = "https://app.ticketmaster.com/discovery/v2/events?apikey=PyFddxZGpcyGVUEcTIedebAUhq35OetV&locale=*&countryCode=US&dmaId=249&page=2&"
-response = requests.get(url)
-page = response.json()
-page_list = page["_embedded"]["events"]
-
-print page_list[12]["dates"]["start"].keys()
-'''
-
-print "Description Count: " + str(description_count)
-print "Disney Count: " + str(disney_count)
 
 with open('data.json', 'w') as f1:
   json.dump(data,f1)
